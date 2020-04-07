@@ -5,13 +5,15 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+jedi = "*"
+yapf = "*"
 
 [packages]
-google-api-python-client = "*"
 click = "*"
-functools = "*"
-yaml = "*"
-configparser = "*"
+pyyaml = "*"
+google-api-python-client = "*"
+appdirs = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.8"

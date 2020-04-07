@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 import click
-from click_helper import common_params
-from color_helper import info
+from click_helper import common_params, echov
 
 
 @click.command()
@@ -10,5 +9,4 @@ from color_helper import info
 @click.argument('term')
 def fetch(term, verbose):
     """ Fetches subtitles from past queries."""
-    if verbose:
-        click.echo(info + "Starting YTcrawl's fetching mode.")
+    echov("Starting YTcrawl's fetching mode.", verbose)

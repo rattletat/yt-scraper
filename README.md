@@ -22,3 +22,9 @@ Defines the number of requests per minute.
 
 `-v --verbose`
 Print more information to output.
+
+
+## Known Issues
+
+- The `number` parameter is restricted to maximal 50. This can be fixed in the
+future by iterating through result pages.
