@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
 import os
+from pathlib import Path
 
 import click
 import toml
-
-from ytscraper import __app_name__
 from ytscraper.helper.echo import warning
+
+APP_NAME = "YouTube Scraper"
 
 
 def update_config(config, options):
@@ -53,7 +54,7 @@ def load_config(config_path=None):
         config = toml.load(config_path)
     else:
         try:
-            config_folder = click.get_app_dir(__app_name__, roaming=True)
+            config_folder = click.get_app_dir(APP_NAME, roaming=True)
             config_path = os.path.join(config_folder, 'config.toml')
             config = toml.load(config_path)
         except FileNotFoundError:
