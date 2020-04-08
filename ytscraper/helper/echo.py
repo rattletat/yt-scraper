@@ -21,10 +21,10 @@ class markup:
     END = "\033[0m"
 
 
-info = markup.BOLD + color.PURPLE + "[STATUS] " + markup.END
-usage = markup.BOLD + color.YELLOW + "[USAGE] " + markup.END
-fail = markup.BOLD + color.RED + "[ERROR] " + markup.END
-warning = markup.BOLD + color.YELLOW + "[WARNING] " + markup.END
+INFO = markup.BOLD + color.PURPLE + "[STATUS] " + markup.END
+USAGE = markup.BOLD + color.YELLOW + "[USAGE] " + markup.END
+FAIL = markup.BOLD + color.RED + "[ERROR] " + markup.END
+WARNING = markup.BOLD + color.YELLOW + "[WARNING] " + markup.END
 
 
 def echov(text, verbose=True, nl=True):
@@ -40,7 +40,7 @@ def echov(text, verbose=True, nl=True):
         If set, a new line is added to the output.
     """
     if verbose:
-        click.echo(info + text, nl=nl)
+        click.echo(INFO + text, nl=nl)
 
 
 def echoe(text):
@@ -51,5 +51,5 @@ def echoe(text):
     text: str
         Text that is printed to error output.
     """
-    click.echo(fail + text, err=True)
+    click.echo(FAIL + text, err=True)
     sys.exit(1)

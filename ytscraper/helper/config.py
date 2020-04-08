@@ -5,7 +5,7 @@ import os
 import click
 import toml
 
-from ytscraper.helper.echo import warning
+from ytscraper.helper.echo import WARNING
 
 APP_NAME = "YouTube Scraper"
 
@@ -58,8 +58,8 @@ def load_config(config_path=None):
             config_path = os.path.join(config_folder, "config.toml")
             config = toml.load(config_path)
         except FileNotFoundError:
-            click.echo(warning + "Configuration file not found:")
-            click.echo(warning + config_path)
+            click.echo(WARNING + "Configuration file not found:")
+            click.echo(WARNING + config_path)
             config = {}
 
     return config
