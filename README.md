@@ -17,9 +17,6 @@ the number of videos fetched on the i-th level.
 Number of recursion steps per video.
 **Default**: 1
 
-`-r --requests-per-minute INTEGER`
-Defines the number of requests per minute.
-
 `-v --verbose`
 Print more information to output.
 

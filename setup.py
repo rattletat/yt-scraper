@@ -1,10 +1,60 @@
-from setuptools import setup
-setup(name='ytcrawl',
-      version='0.1.0',
-      packages=['ytcrawl'],
-      entry_points={
-          'console_scripts': [
-              'ytcrawl = ytcrawl.command_line:main'
-          ]
-      },
-      )
+import pathlib
+from setuptools import find_namespace_packages, setup
+
+HERE = pathlib.Path(__file__).parent
+README = (HERE / "README.md").read_text()
+
+setup(
+    name="yt-scraper",
+    version="0.1.2",
+    description="Command line utility querying the YouTube API v3.",
+    long_description=README,
+    long_description_content_type="text/markdown",
+    url="https://github.com/rattletat/yt-scraper",
+    author="Michael Brauweiler",
+    author_email="rattletat@posteo.net",
+    license="GPLv3",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Development Status :: 2 - Pre-Alpha",
+        "Environment :: Console",
+        "Intended Audience :: Science/Research",
+        "Topic :: Multimedia :: Video",
+        "Topic :: Scientific/Engineering :: Information Analysis",
+    ],
+    keywords="youtube scraping API",
+    project_urls={
+        "Source": "https://github.com/rattletat/yt-scraper",
+        "Tracker": "https://github.com/rattletat/yt-scraper/issues",
+    },
+    packages=find_namespace_packages(exclude=["tests"]),
+    include_package_data=True,
+    install_requires=[
+        "appdirs==1.4.3",
+        "cachetools==4.0.0",
+        "certifi==2020.4.5.1",
+        "chardet==3.0.4",
+        "click==7.1.1",
+        "google-api-core==1.16.0",
+        "google-api-python-client==1.8.0",
+        "google-auth==1.13.1",
+        "google-auth-httplib2==0.0.3",
+        "googleapis-common-protos==1.51.0",
+        "httplib2==0.17.1",
+        "idna==2.9",
+        "protobuf==3.11.3",
+        "pyasn1==0.4.8",
+        "pyasn1-modules==0.2.8",
+        "pytz==2019.3",
+        "pyyaml==5.3.1",
+        "ratelimit==2.2.1",
+        "requests==2.23.0",
+        "rsa==4.0",
+        "six==1.14.0",
+        "uritemplate==3.0.1",
+        "urllib3==1.25.8",
+    ],
+    entry_points={"console_scripts": ["ytscraper = ytscraper.__main__:main"]},
+)

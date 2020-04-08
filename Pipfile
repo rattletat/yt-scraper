@@ -7,13 +7,15 @@ verify_ssl = true
 pylint = "*"
 jedi = "*"
 yapf = "*"
+bumpversion = "*"
+pipenv-setup = "*"
 
 [packages]
 click = "*"
 pyyaml = "*"
 google-api-python-client = "*"
 appdirs = "*"
-pandas = "*"
+ratelimit = "*"
 
 [requires]
 python_version = "3.8"
