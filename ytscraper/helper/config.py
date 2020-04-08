@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-from pathlib import Path
 
 import click
 import toml
@@ -35,8 +34,8 @@ def load_config(config_path=None):
     Parameters
     ----------
     config_path: str, optional
-        The file path to the configuration file. If not specified, 
-        the method tries to read the default system-specific 
+        The file path to the configuration file. If not specified,
+        the method tries to read the default system-specific
         configuration folder.
 
     Returns

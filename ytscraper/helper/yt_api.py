@@ -10,13 +10,13 @@ from ytscraper.helper.echo import echoe
 def get_youtube_handle(api_key):
     """ Returns the YouTube Data API v3 handle.
 
-    This method returns the handle for the YouTube Data API v3 
+    This method returns the handle for the YouTube Data API v3
     in order to request data.
 
     Parameter
     ---------
     api_key: str
-        An authorized API key. 
+        An authorized API key.
     """
     try:
         return build("youtube", "v3", developerKey=api_key)
@@ -35,7 +35,9 @@ def check_rate_limit():
 
 
 # TODO relevanceLanguage parameter
-def get_search_videos(handle, query, maxResults, regionCode="de", safeSearch="none"):
+def get_search_videos(
+    handle, query, maxResults, regionCode="de", safeSearch="none"
+):
     check_rate_limit()
     response = (
         handle.search()
@@ -53,7 +55,9 @@ def get_search_videos(handle, query, maxResults, regionCode="de", safeSearch="no
 
 
 # TODO Why is related videos so weird?
-def get_related_videos(handle, videoId, maxResults, regionCode="de", safeSearch="none"):
+def get_related_videos(
+    handle, videoId, maxResults, regionCode="de", safeSearch="none"
+):
     check_rate_limit()
     response = (
         handle.search()

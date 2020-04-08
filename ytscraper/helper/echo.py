@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import functools
 import sys
 
 import click
