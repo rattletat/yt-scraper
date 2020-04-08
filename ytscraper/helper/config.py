@@ -3,7 +3,7 @@
 import os
 
 import click
-import yaml
+import toml
 
 from ytscraper import __app_name__
 from ytscraper.helper.echo import warning
@@ -27,7 +27,7 @@ def update_config(config, options):
 def load_config(config_path=None):
     r"""Processes and returns the user configuration.
 
-    This function reads a YAML configuration file from either a provided
+    This function reads a TOML configuration file from either a provided
     path or the standard configuration directory and returns it.
 
     Parameters
@@ -50,12 +50,12 @@ def load_config(config_path=None):
         - Win7: C:\Users\<user>\AppData\Roaming\YouTube Scraper
     """
     if config_path:
-        config = yaml.safe_load(open(config_path))
+        config = toml.load(config_path)
     else:
         try:
             config_folder = click.get_app_dir(__app_name__, roaming=True)
-            config_path = os.path.join(config_folder, 'config.yml')
-            config = yaml.safe_load(open(config_path))
+            config_path = os.path.join(config_folder, 'config.toml')
+            config = toml.load(config_path)
         except FileNotFoundError:
             click.echo(warning + "Configuration file not found:")
             click.echo(warning + config_path)
