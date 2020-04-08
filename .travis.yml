@@ -1,0 +1,93 @@
+variables:
+  PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+cache:
+  key: "${CI_JOB_NAME}"
+  paths:
+  - ".cache/pip"
+  - ".venv"
+env:
+  global:
+  - secure: XuJpPw046ELLUDT1bJPa/jhTtIpK61eeVT8nw1xigf08m+ws9a2u8su3c4aWIhBieCYX1L2Ez/BTvG8IQo9b3C3A+W1tL8RdeC4fGDeVitV6GVmuj8ohxxhOeAiLv05C1C47wunXJpWFesUuDDOmgUPWodsy1tP6K5IgMiOKHJKG8oTUV55kyv35YPKyR0m6Hw3aFq6o2dvHOEh1fpx2HVqrN4hJ3Vxi0lHoudXtqT0gEUq/tR6rRMBJLBFGmwQ21gqwfy0LrgzD3ynymhf8uEcgIqdi7QbCJrMZw0mXA2VqnxRYL1UimXQiK0d+Plnv7YzAn5mhGxvrvaqPiAvhyVGDRmAXq+YKNEStrP4a40ZeZs5fHG6sloI06VDQTpx2x4LWL+KsQDk4ar46B/LBY5jbYV2n2LOaxppm2BuUN1WO7sFBFGEQlKoRFJVAzcnu9fB1HRwxFdGTjTrHn0B5mJN9LO+YKA634RnClChrp/S1jMAZTzieGeJw2bPohaJV05zjvU13jZw0u0OOsRnW0prvN5vXmdwhPi9Hgs93Ia4knTOe3avrzKHnE4pFSk9R6xhLOMuuMBu1ArzUXzJgQIUnBO7eF3LDeCswfQ6TOwdHrjsg+1zMo5Rh9YkKOepiPj/XuMKZmRAgG95z5S2Dv/ExDw8dbuUYSMUTrNuqypI=
+  - secure: tjfTCirkVlwe4lOKkuldGiuhwFp3n3k8ypipMr39RCC9ZtMlK5Q8ZPv0/YbtTerc23DslLJnpmqge2zRWQRPDg8A6pRjTXpIQYNfokHoO3xvxnpjcmqOzppT4KqRbgRsX1a/2FCFQI/IPzTuf43aJtevcOP/ILotdhmYGEYRgbS89ILb3jjnvMRb/+7omJLrPERvYeDong/8ymxefRtM+h2MEzHaDlu8au+UTIk3lYzf5oTxlUq+/79c0ITTew23AfZObB2DAHJRb53nqWOicyDEV/nM/ef4BXeAMr9L+GnEtRwzIeO9EbuZMwurDySMdOBeyFxCOQUMSoXoq6Op7dR4secLO6BLOF7cx2tT//6NRWmjRYeK4CTL7+VoyeTDvoA0og0OnW5AT7BJWH+df4FdvpKSGSBtJfcCxb94X+p+lPyiv5Yw7MeTkN8v0RqIamsjjvoTj3YG2xvuhM7bIF4nMdwNuwxdNBYA0o01FvMgO8xbLACj3NVcRQ7QndWRI0hxCvxUmkL7svzAk99QcaucVZEIfzeBJxOFcMCCwo67+DW3Bfh24ZczagzLAk8t2JBrh1SS6q1PW0XGoI6mrJ4Fbp9sQwKvrhPGI26958WrdLZ4g8UMN3FSIK0ALDlvElgkvfiVA/obv1Y5UrG1Jn64FSXHUYi8xra1+GI/QDE=
+stages:
+- quality
+- tests
+".install-deps-template":
+  before_script: &1
+  - pip install poetry
+  - poetry --version
+  - poetry config settings.virtualenvs.in-project true
+  - poetry install -vv
+".quality-template":
+  before_script: *1
+  image: python:3.6
+  stage: quality
+".test-template":
+  before_script: *1
+  stage: tests
+  coverage: "/TOTAL.*\\s(\\d+\\.\\d+\\%)/"
+  script: make test
+  artifacts: &2
+    paths:
+    - tests/logs
+    when: always
+    expire_in: 1 week
+check-bandit:
+  before_script: *1
+  image: python:3.6
+  stage: quality
+  script: make check-bandit
+check-black:
+  before_script: *1
+  image: python:3.6
+  stage: quality
+  script: make check-black
+check-flake8:
+  before_script: *1
+  image: python:3.6
+  stage: quality
+  script: make check-flake8
+check-isort:
+  before_script: *1
+  image: python:3.6
+  stage: quality
+  script: make check-isort
+check-safety:
+  before_script: *1
+  image: python:3.6
+  stage: quality
+  script: make check-safety
+python3.6:
+  before_script: *1
+  stage: tests
+  coverage: "/TOTAL.*\\s(\\d+\\.\\d+\\%)/"
+  script: make test
+  artifacts: *2
+  image: python:3.6
+python3.7:
+  before_script: *1
+  stage: tests
+  coverage: "/TOTAL.*\\s(\\d+\\.\\d+\\%)/"
+  script: make test
+  artifacts: *2
+  image: python:3.7
+python3.8:
+  before_script: *1
+  stage: tests
+  coverage: "/TOTAL.*\\s(\\d+\\.\\d+\\%)/"
+  script: make test
+  artifacts: *2
+  image: python:3.8
+script:
+- poetry run flake8 my_package test
+- poetry run coverage run --source=my_package -m unittest discover -b
+before_deploy:
+- poetry config repositories.mypypi http://mypypi.example.com/simple
+- poetry config http-basic.mypypi $MYPYPI_USER $MYPYPI_PASS
+- poetry build -f sdist
+deploy:
+  provider: script
+  script: poetry publish -r mypypi
+  skip_cleanup: true
+  on:
+    tags: true
