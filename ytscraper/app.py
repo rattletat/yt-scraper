@@ -8,14 +8,8 @@ from ytscraper.helper.echo import echov
 
 
 @click.group()
-@click.option('--config-path',
-              '-c',
-              type=click.Path(),
-              help='YAML configuration file.')
-@click.option('--verbose',
-              '-v',
-              is_flag=True,
-              help='Show more verbose output.')
+@click.option("--config-path", "-c", type=click.Path(), help="YAML configuration file.")
+@click.option("--verbose", "-v", is_flag=True, help="Show more verbose output.")
 @click.pass_context
 def run(context, config_path, verbose):
     echov("Reading configuration file.", verbose)
@@ -25,7 +19,7 @@ def run(context, config_path, verbose):
     if verbose:
         pprint(context.obj)
 
-    context.obj['verbose'] = verbose
+    context.obj["verbose"] = verbose
 
 
 run.add_command(search.search)

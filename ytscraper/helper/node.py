@@ -26,7 +26,7 @@ def get_clamp_index(container, index):
 
 def convert_to_node_list(handle, video_ids, depth, numbers):
     # Related videos are one step deeper
-    related_number = get_clamp_index(numbers, depth+1)
+    related_number = get_clamp_index(numbers, depth + 1)
     video_nodes = []
     for rank, video_id in enumerate(video_ids):
         node = build_node(handle, video_id, rank, depth, related_number)

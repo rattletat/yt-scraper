@@ -2,15 +2,15 @@
 
 import click
 
-from ytscraper.helper.echo import echov, echoe
+from ytscraper.helper.echo import echoe, echov
 
 
 @click.command()
-@click.argument('term')
+@click.argument("term")
 @click.pass_context
 def fetch(context, term):
     """ Fetches subtitles from past queries."""
     # config = context['config']
-    verbose = context.obj['verbose']
+    verbose = context.obj["verbose"]
     echov("Starting YTcrawl's fetching mode.", verbose)
     echoe("Not implemented yet!")

@@ -19,10 +19,12 @@ def get_youtube_handle(api_key):
         An authorized API key. 
     """
     try:
-        return build('youtube', 'v3', developerKey=api_key)
+        return build("youtube", "v3", developerKey=api_key)
     except HttpError:
-        echoe(""" There was an error while connecting to the YouTube API.
-        Please check your API key.""")
+        echoe(
+            """ There was an error while connecting to the YouTube API.
+        Please check your API key."""
+        )
 
 
 @sleep_and_retry
@@ -33,34 +35,37 @@ def check_rate_limit():
 
 
 # TODO relevanceLanguage parameter
-def get_search_videos(handle,
-                      query,
-                      maxResults,
-                      regionCode='de',
-                      safeSearch='none'):
+def get_search_videos(handle, query, maxResults, regionCode="de", safeSearch="none"):
     check_rate_limit()
-    response = handle.search().list(
-        q=query,
-        part='id',
-        type='video',
-        maxResults=maxResults,
-        safeSearch=safeSearch,  # none, moderate, strict
-        regionCode=regionCode).execute()
-    return list(map(lambda l: l['id']['videoId'], response['items']))
+    response = (
+        handle.search()
+        .list(
+            q=query,
+            part="id",
+            type="video",
+            maxResults=maxResults,
+            safeSearch=safeSearch,  # none, moderate, strict
+            regionCode=regionCode,
+        )
+        .execute()
+    )
+    return list(map(lambda l: l["id"]["videoId"], response["items"]))
+
 
 # TODO Why is related videos so weird?
-def get_related_videos(handle,
-                       videoId,
-                       maxResults,
-                       regionCode='de',
-                       safeSearch='none'):
+def get_related_videos(handle, videoId, maxResults, regionCode="de", safeSearch="none"):
     check_rate_limit()
-    response = handle.search().list(
-        relatedToVideoId=videoId,
-        part='id',
-        type='video',
-        maxResults=maxResults + 1,  # relatedToVideoId returns 1 less
-        safeSearch=safeSearch,  # none, moderate, strict
-        regionCode=regionCode).execute()
-    video_ids = list(map(lambda l: l['id']['videoId'], response['items']))
+    response = (
+        handle.search()
+        .list(
+            relatedToVideoId=videoId,
+            part="id",
+            type="video",
+            maxResults=maxResults + 1,  # relatedToVideoId returns 1 less
+            safeSearch=safeSearch,  # none, moderate, strict
+            regionCode=regionCode,
+        )
+        .execute()
+    )
+    video_ids = list(map(lambda l: l["id"]["videoId"], response["items"]))
     return video_ids[:maxResults]
