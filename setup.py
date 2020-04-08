@@ -6,7 +6,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="yt-scraper",
-    version="0.2.5",
+    version="0.2.6",
     description="Command line utility querying the YouTube API v3.",
     long_description=README,
     long_description_content_type="text/markdown",
