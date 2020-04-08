@@ -6,7 +6,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="yt-scraper",
-    version="0.1.2",
+    version="0.2.5",
     description="Command line utility querying the YouTube API v3.",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -56,5 +56,5 @@ setup(
         "uritemplate==3.0.1",
         "urllib3==1.25.8",
     ],
-    entry_points={"console_scripts": ["ytscraper = ytscraper.__main__:main"]},
+    entry_points={"console_scripts": ["yt-scraper = ytscraper.app:entry_point"]},
 )

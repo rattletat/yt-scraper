@@ -43,12 +43,12 @@ def get_search_videos(handle,
         q=query,
         part='id',
         type='video',
+        maxResults=maxResults,
         safeSearch=safeSearch,  # none, moderate, strict
-        regionCode=regionCode,
-        maxResults=maxResults).execute()
+        regionCode=regionCode).execute()
     return list(map(lambda l: l['id']['videoId'], response['items']))
 
-
+# TODO Why is related videos so weird?
 def get_related_videos(handle,
                        videoId,
                        maxResults,
@@ -59,7 +59,8 @@ def get_related_videos(handle,
         relatedToVideoId=videoId,
         part='id',
         type='video',
+        maxResults=maxResults + 1,  # relatedToVideoId returns 1 less
         safeSearch=safeSearch,  # none, moderate, strict
-        regionCode=regionCode,
-        maxResults=maxResults).execute()
-    return list(map(lambda l: l['id']['videoId'], response['items']))
+        regionCode=regionCode).execute()
+    video_ids = list(map(lambda l: l['id']['videoId'], response['items']))
+    return video_ids[:maxResults]

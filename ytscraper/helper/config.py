@@ -5,9 +5,8 @@ import os
 import click
 import yaml
 
+from ytscraper import __app_name__
 from ytscraper.helper.echo import warning
-from ytscraper import APP_NAME
-
 
 
 def update_config(config, options):
@@ -54,7 +53,7 @@ def load_config(config_path=None):
         config = yaml.safe_load(open(config_path))
     else:
         try:
-            config_folder = click.get_app_dir(APP_NAME, roaming=True)
+            config_folder = click.get_app_dir(__app_name__, roaming=True)
             config_path = os.path.join(config_folder, 'config.yml')
             config = yaml.safe_load(open(config_path))
         except FileNotFoundError:

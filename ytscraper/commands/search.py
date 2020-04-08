@@ -8,7 +8,7 @@ import click
 
 from ytscraper.helper.config import update_config
 from ytscraper.helper.echo import echoe, echov
-from ytscraper.helper.node import build_node_list
+from ytscraper.helper.node import convert_to_node_list
 from ytscraper.helper.yt_api import get_search_videos, get_youtube_handle
 
 
@@ -16,17 +16,13 @@ from ytscraper.helper.yt_api import get_search_videos, get_youtube_handle
 @click.argument('search-type',
                 default='query',
                 type=click.Choice(['term', 'url', 'id']))
-@click.argument('query', 
-        nargs=1, 
-        required=True)
+@click.argument('query', nargs=1, required=True)
 @click.option('--number',
               '-n',
               multiple=True,
               type=click.IntRange(1, 50),
               help='Number of videos fetched per level.')
-@click.option('--depth',
-              '-d',
-              help='Number of recursion steps.')
+@click.option('--depth', '-d', type=int, help='Number of recursion steps.')
 @click.option('--api-key',
               '-k',
               type=str,
@@ -37,7 +33,8 @@ def search(context, search_type, query, **options):
     config = context.obj
 
     # CONFIGURATION
-    echov("Updating configuration with command line options.", config['verbose'])
+    echov("Updating configuration with command line options.",
+          config['verbose'])
     update_config(config, options)
     echov("Done! Working with the following configuration:", config['verbose'])
     if config['verbose']:
@@ -60,14 +57,15 @@ def search(context, search_type, query, **options):
         echov("Starting search using video id {query}.", config['verbose'])
         start_ids = [query]
     elif search_type == 'url':
-        echov("Starting search using the following video url:", config['verbose'])
+        echov("Starting search using the following video url:",
+              config['verbose'])
         echov(query, config['verbose'])
         qterm = parse.urlsplit(query).query
         video_id = parse.parse_qs(qterm)['v']
         start_ids = [video_id]
 
     # QUERY
-    node_list = build_node_list(handle, start_ids, 0, config['number'][0])
+    node_list = convert_to_node_list(handle, start_ids, 0, config['number'])
     node_queue = deque(node_list)
     processed_nodes = []
     while True:
@@ -78,9 +76,8 @@ def search(context, search_type, query, **options):
         echov('Current Video: ' + node.videoId, config['verbose'])
         if node.depth < config['depth']:
             # Clamp level_branch index to specified branch array.
-            number = config['number'][max(0, min(node.depth + 1, len(config['number'])-1))]
-            new_nodes = build_node_list(handle, node.relatedVideos,
-                                        node.depth + 1, number)
+            new_nodes = convert_to_node_list(handle, node.relatedVideos,
+                                        node.depth + 1, config['number'])
             node_queue.extend(new_nodes)
 
     echov("Query finished! Result:")

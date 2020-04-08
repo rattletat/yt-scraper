@@ -7,7 +7,6 @@ verify_ssl = true
 pylint = "*"
 jedi = "*"
 yapf = "*"
-bumpversion = "*"
 pipenv-setup = "*"
 
 [packages]
@@ -16,6 +15,7 @@ pyyaml = "*"
 google-api-python-client = "*"
 appdirs = "*"
 ratelimit = "*"
+bump2version = "*"
 
 [requires]
 python_version = "3.8"
