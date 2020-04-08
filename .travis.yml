@@ -5,27 +5,20 @@ cache:
   paths:
   - ".cache/pip"
   - ".venv"
-env:
-  global:
-  - secure: csPZtUC3rc+So9Ou3W7dXyYf3sonDb0p2Gc6r8xvW2TC8vrXd1JS3A8N6rvguu+Sa1ITHGl1WVvDPeS14OOODJSvcpuHxqkGI8kX/2Vq5w0L0t5Qm3fgHBjt+RWG/mOkXj0YEjoLrJDQHkEjyWLx6m2lgEkza1C1k4qFrkfU8qjTnkcp5wQwxPULxzLLXXYVpvsxvM4jeAiwN0Ix+AcZtupI2vuD1u7dc8vgfTGVQd/YVBIRUi8wd2HSwjgZmzBgfwWAPUQYsUkKSfnRq1XpUvZzDPvZADXCrnNtm1lx2s8m/pu3BShniG7lOdnVdjx0h4BD/6yrGMQEx1y7iKn6G2iU5Wjln5jbF2v54+KBTDB44O5HLeg9BvAi+GU2A701bXhwRSIWRNETh0L+S5gC37rNprRpwvd2/VEw9JtyJ7HBu6VfBxhML6RmQFzyaxayBb4KHyA8X8runRw1KjNfYJcLOCjrBf3HcZDurvChi482Gs7y/hjocb6nJ0tYg2/ktRPrB1c2P7g+p6QIM4x5QIHz44Iri/GrSt++46XRpNpIwTr0AG4WEj+1iHCmFrCUzfrvtCiYvsmDpcYFAWKnqFz9myeK+Gel00nRt2Jj1w5mys1eyRf+Db5V14/g/y6N559dk17X2bhWnzbzb0aD1pJfcJ8rJ6TXB2ctIXhnagk=
-  - secure: lL7Fs6nMgz/JXOSQbh9nO/BitYFNnvXe2Jy50Da2PuntPpellUCVNcH0N5YSpf5w6VOSflqpwJUe3CjT+buPnhfvPKDIFx4uaQ2HqutkQ7vI/5WEhpXxjvUB3lkeDKxPtjd8TlhaCo6wgiIDFYbV2nWRzTKGYRoasdH3Hhu295L0WWvIvBOVBbty4EFtn+WkdH+twhVbVb7U8uUe10yJvO8xEysccMspOkdhQ20s6tuOzlvUMtHHNFDQwqk2R73ZB1mpRk7ImRY0PLpkcp6QJpi6a8LRKETzIDGD3po2b+CWDLedkkQXyJepVPF2sGj9d9aEWgS6i0TV9Mc/wHaZRh48hyZye85b6aJyM/ZBPmP8Aw2O8mQepcV1pgpo3aASmWgaFI6qoP1gYemfAs1RvPI6PQgH9OnoP0vbDxv5Le3siqL9te4xEjvh/qEOPeAbKN0W9tHlvvB7I2FFE8+HLsPK3g1KADG7m7ttdsYZNQFV/BZibvNJ+2goGlgakVFUPRnB8o1Z3D5w6uUtYTnxtxj75ha6IMJa6Ld5htqn8VL1B/CiyncRQFYfl3oq5gb3QxYNI5D86A4qCgCJVpElgXwcOwTZBiEpOKZBh2keZKAGXbz3jl9cTL+sG3sWcpZImQkekoMDYBmEM0PAOFnTwPkq8JO+NEuJ+1fDIo260Jo=
 stages:
 - quality
 - tests
-
-.install-deps-template:
+".install-deps-template":
   before_script: &1
   - pip install poetry
   - poetry --version
   - poetry config settings.virtualenvs.in-project true
   - poetry install -vv
-
-.quality-template:
+".quality-template":
   before_script: *1
   image: python:3.6
   stage: quality
-
-.test-template:
+".test-template":
   before_script: *1
   stage: tests
   coverage: "/TOTAL.*\\s(\\d+\\.\\d+\\%)/"
@@ -35,37 +28,26 @@ stages:
     - tests/logs
     when: always
     expire_in: 1 week
-
 check-bandit:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-bandit
-
 check-black:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-black
-
 check-flake8:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-flake8
-
 check-isort:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-isort
-
-check-safety:
-  before_script: *1
-  image: python:3.6
-  stage: quality
-  script: make check-safety
-
 python3.6:
   before_script: *1
   stage: tests
@@ -73,7 +55,6 @@ python3.6:
   script: make test
   artifacts: *2
   image: python:3.6
-
 python3.7:
   before_script: *1
   stage: tests
@@ -81,7 +62,6 @@ python3.7:
   script: make test
   artifacts: *2
   image: python:3.7
-
 python3.8:
   before_script: *1
   stage: tests
@@ -89,3 +69,7 @@ python3.8:
   script: make test
   artifacts: *2
   image: python:3.8
+env:
+  global:
+  - secure: Ervec+ASnvL9k5UxbJ4z0EMtMN21SDUdtED9AH0SwTAxkjpmUl0yHgjz1ylY3DUJT3upIYO1LtZ/C/9gfEupQV2DhwEInTbBnemzY6sOKTN/5HGsrR+Q7+aLIC6DR9KumkzRKOioITiEN6HTcLsDPg1+xrpUl8jweKwINA/1OkqKa2nb9CevN0RiUgACmGgwvVhJQcQHXYRLbMvCPmXXT1dvfNfbIYLjCP1BC/7QuJ+GlqOQOkhXnA3o7rlsAOXqKEdQhLC50Nr9v/BiCjjVV0t9pYvoAX1tssW+8xct6ZZ5yHhBwW1tjd2VArI6dj/rUOhsrBfRFLsQ5mjTBCTb0+h8jIJc/LF5NusVktdbZ5+c/oDLvgX06CM7mq01uGXZgGLBqcjleBqM+85mmOM2MY9q/q878UdNXZ3LpZ/4Pq1PCCbF74eUygmIup7khvVw1C6qtKtzXB1jfBIOyCDlWtlNHXcwWPbZPvjpdZVQdAmA8G9wzDuxYCJuA3yzxqB4HMayCPr+wXzbGvKg8oqPgBTWwlNEDP5UctJTM4zV0NfHTZQyawFOMJKPbr78D+Qg8xSo++v6PsaNs5ibDnqxmrF3eNfQ2ISUQZwEDYayMuGXBAwrs5VCm6ycqAgkEi7z/vguBO1/2nKNpsDlur+Wfqdf4uev9aJW60PPQeNW8d8=
+  - secure: RcLNpqAlPG1LD24ZTQUTh+a+njpC8YijvWEbQdBMoBuFppNWAEZ9N7B0sfbzHS43OABQ5n8IGfchDypHnLdldtIGrto1oiXI15QQn365dGLtOxnZlrjgNkS7Xg/YsZEy1fwO/eXLntSlJ+z7y2AyNs1k/zzoM6MCiA6ETWU+QipGh+UAF/OrbsM4rl5zGFzsaPzb+dO958n5MRjmVy+RK+2GbngpTxpdDgwOFpITxoqeNwF7I86/5l8GGBPDRt5AQXikmra51GLtY/aV5Z7rvjOuwkYt76ryXxo5cV3ew8lsdqsy2O0eGaooq2L1eiQi0g/8jmtu7tK/MnNrsowlB/A1KBAt5nMPd1L5vjXscjQhhUl9uY8Of7927tlxa+OIXqQILp5LO+p4t+7tZZvSbWieGbreLJUEE4NjyXFbYkCWz7OkmVxN3z3HbY3PVSD6nhS+wv6Xyll/UofrpH3i6tqQDLyUQYj94r0O2J8zzPnaL/H9ctu+tGrKa/bqUDqw6MjSPt1h0KxO4Lxxtg/W1LZLLt3bIewwjpVITKwjC9bsbuLA7tZS1HlE/eyQBEzL8nKtcLQBho8TW7CNEfX0Bexizk+X2b67AhzPSjuW+iWDnhEi7HlaW4MhjVQmnIk2KPgWb0rh3DGkh5Whwi+Kolgal9H0XkZWCTZxTQmpOeI=
