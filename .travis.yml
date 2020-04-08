@@ -12,17 +12,20 @@ env:
 stages:
 - quality
 - tests
-".install-deps-template":
+
+.install-deps-template:
   before_script: &1
   - pip install poetry
   - poetry --version
   - poetry config settings.virtualenvs.in-project true
   - poetry install -vv
-".quality-template":
+
+.quality-template:
   before_script: *1
   image: python:3.6
   stage: quality
-".test-template":
+
+.test-template:
   before_script: *1
   stage: tests
   coverage: "/TOTAL.*\\s(\\d+\\.\\d+\\%)/"
@@ -32,31 +35,37 @@ stages:
     - tests/logs
     when: always
     expire_in: 1 week
+
 check-bandit:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-bandit
+
 check-black:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-black
+
 check-flake8:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-flake8
+
 check-isort:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-isort
+
 check-safety:
   before_script: *1
   image: python:3.6
   stage: quality
   script: make check-safety
+
 python3.6:
   before_script: *1
   stage: tests
@@ -64,6 +73,7 @@ python3.6:
   script: make test
   artifacts: *2
   image: python:3.6
+
 python3.7:
   before_script: *1
   stage: tests
@@ -71,6 +81,7 @@ python3.7:
   script: make test
   artifacts: *2
   image: python:3.7
+
 python3.8:
   before_script: *1
   stage: tests
@@ -78,16 +89,3 @@ python3.8:
   script: make test
   artifacts: *2
   image: python:3.8
-script:
-- poetry run flake8 my_package test
-- poetry run coverage run --source=my_package -m unittest discover -b
-before_deploy:
-- poetry config repositories.mypypi http://mypypi.example.com/simple
-- poetry config http-basic.mypypi $MYPYPI_USER $MYPYPI_PASS
-- poetry build -f sdist
-deploy:
-  provider: script
-  script: poetry publish -r mypypi
-  skip_cleanup: true
-  on:
-    tags: true
