@@ -3,4 +3,4 @@
 from ytscraper import app
 
 if __name__ == "__main__":
-    app.entry_point()
+    app.run()

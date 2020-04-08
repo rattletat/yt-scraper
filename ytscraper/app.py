@@ -17,7 +17,7 @@ from ytscraper.helper.echo import echov
               is_flag=True,
               help='Show more verbose output.')
 @click.pass_context
-def entry_point(context, config_path, verbose):
+def run(context, config_path, verbose):
     echov("Reading configuration file.", verbose)
     context.obj = {}
     update_config(context.obj, load_config(config_path))
@@ -28,6 +28,6 @@ def entry_point(context, config_path, verbose):
     context.obj['verbose'] = verbose
 
 
-entry_point.add_command(search.search)
-entry_point.add_command(fetch.fetch)
+run.add_command(search.search)
+run.add_command(fetch.fetch)
 
