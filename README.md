@@ -145,7 +145,7 @@ In general, the contribution process is somehow like this:
 ## Author
 **Michael Brauweiler**
 
-- GitHub: [@rattletat][me-twitter-url]
+- Twitter: [@rattletat][me-twitter-url]
 - Email: [rattletat@posteo.me](mailto:rattletat@posteo.me)
 
 
