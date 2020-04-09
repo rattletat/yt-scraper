@@ -8,7 +8,7 @@ import click
 
 from ytscraper.helper.config import update_config
 from ytscraper.helper.echo import echoe, echov
-from ytscraper.helper.node import convert_to_node_list
+from ytscraper.helper.node import construct_node_list
 from ytscraper.helper.yt_api import get_search_videos, get_youtube_handle
 
 
@@ -49,6 +49,12 @@ def search(context, search_type, query, **options):
     handle = get_youtube_handle(config["api_key"])
     echov("API access established.", config["verbose"])
 
+    # DEFAULT VALUES
+    if "number" not in config:
+        config["number"] = (1, 0)
+    if "depth" not in config:
+        config["depth"] = 0
+
     # ARGUMENT PARSING
     if search_type == "term":
         echov("Starting search using query {query}.", config["verbose"])
@@ -56,15 +62,19 @@ def search(context, search_type, query, **options):
     elif search_type == "id":
         echov("Starting search using video id {query}.", config["verbose"])
         start_ids = [query]
+        # Shift 1 to right since we start one level lower
+        config["number"] = (1,) + config["number"] 
     elif search_type == "url":
         echov("Starting search using the following video url:", config["verbose"])
         echov(query, config["verbose"])
+        # Shift 1 to right since we start one level lower
+        config["number"] = (1,) + config["number"] 
         qterm = parse.urlsplit(query).query
-        video_id = parse.parse_qs(qterm)["v"]
+        video_id = parse.parse_qs(qterm)["v"][0]
         start_ids = [video_id]
 
     # QUERY
-    node_list = convert_to_node_list(handle, start_ids, 0, config["number"])
+    node_list = construct_node_list(handle, start_ids, 0, config["number"])
     node_queue = deque(node_list)
     processed_nodes = []
     while True:
@@ -75,7 +85,7 @@ def search(context, search_type, query, **options):
         echov("Current Video: " + node.videoId, config["verbose"])
         if node.depth < config["depth"]:
             # Clamp level_branch index to specified branch array.
-            new_nodes = convert_to_node_list(
+            new_nodes = construct_node_list(
                 handle, node.relatedVideos, node.depth + 1, config["number"]
             )
             node_queue.extend(new_nodes)
