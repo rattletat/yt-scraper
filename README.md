@@ -103,9 +103,11 @@ If the folder does not exist, you may need to create it.
 ## Release History
 
 * 0.2.6 
-    - Added UNLICENSE
+    - Added [UNLICENSE](license-url) to project.
 * 0.3.0
-    - Uploaded to PyPI
+    - Uploaded to [PyPI][pypi-url]
+* 0.4.0
+    - Command *search* released
 
 
 ## Roadmap
@@ -157,6 +159,7 @@ For more information, see the included [UNLICENSE][license-url] file.
 [config-url]: data/config.toml.example
 [git-new-issue-url]: https://github.com/rattletat/yt-scraper/issues/new
 [poetry-url]: https://github.com/python-poetry/poetry
+[pypi-url]: https://pypi.org/project/yt-scraper/
 [me-github-url]: https://github.com/rattletat
 [me-twitter-url]: https://twitter.com/m_brauweiler
 [license-url]: UNLICENSE
