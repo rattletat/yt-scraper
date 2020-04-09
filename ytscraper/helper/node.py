@@ -18,10 +18,11 @@ from typing import NamedTuple, Tuple
 from ytscraper.helper.yt_api import get_related_videos
 
 
-# TODO: Divide information into SearchNode and VideoNode, 
+# TODO: Divide information into SearchNode and VideoNode,
 #       for meta-search and search information.
 class VideoNode(NamedTuple):
     """ Groups meta information about a video within a YouTube search."""
+
     videoId: str
     depth: int
     rank: int

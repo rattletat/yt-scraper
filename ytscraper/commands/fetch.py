@@ -6,9 +6,8 @@ from ytscraper.helper.echo import echoe, echov
 
 
 @click.command()
-@click.argument("term")
 @click.pass_context
-def fetch(context, term):
+def fetch(context):
     """ Fetches subtitles from past queries."""
     # config = context['config']
     verbose = context.obj["verbose"]

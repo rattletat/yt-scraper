@@ -25,18 +25,14 @@ from ytscraper.helper.yt_api import get_search_videos, get_youtube_handle
     help="Number of videos fetched per level.",
 )
 @click.option("--depth", "-d", type=int, help="Number of recursion steps.")
-@click.option(
-    "--api-key", "-k", type=str, help="API Key to use YouTube API v3."
-)
+@click.option("--api-key", "-k", type=str, help="API Key to use YouTube API v3.")
 @click.pass_context
 def search(context, search_type, query, **options):
     """Searches YouTube using a specified query."""
     config = context.obj
 
     # CONFIGURATION
-    echov(
-        "Updating configuration with command line options.", config["verbose"]
-    )
+    echov("Updating configuration with command line options.", config["verbose"])
     update_config(config, options)
     echov("Done! Working with the following configuration:", config["verbose"])
     if config["verbose"]:
@@ -61,9 +57,7 @@ def search(context, search_type, query, **options):
         echov("Starting search using video id {query}.", config["verbose"])
         start_ids = [query]
     elif search_type == "url":
-        echov(
-            "Starting search using the following video url:", config["verbose"]
-        )
+        echov("Starting search using the following video url:", config["verbose"])
         echov(query, config["verbose"])
         qterm = parse.urlsplit(query).query
         video_id = parse.parse_qs(qterm)["v"]

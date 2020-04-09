@@ -51,7 +51,9 @@ def check_rate_limit():
 
 
 # TODO relevanceLanguage parameter
-def get_search_videos(handle, search_term, max_results, region_code="de", safe_search="none"):
+def get_search_videos(
+    handle, search_term, max_results, region_code="de", safe_search="none"
+):
     """ Returns video ids from a search using the YouTube API v3.
 
     Parameter
@@ -127,7 +129,7 @@ def get_related_videos(
             part="id",
             type="video",
             maxResults=max_results + 1,  # relatedToVideoId returns 1 less
-            safeSearch=safe_search, 
+            safeSearch=safe_search,
             regionCode=region_code,
         )
         .execute()

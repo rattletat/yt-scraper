@@ -20,11 +20,12 @@ import sys
 import click
 
 if sys.platform.lower() == "win32":
-    os.system('color')
+    os.system("color")
 
 
-class Color():
+class Color:
     """ A simple color class containing ANSI color codes. """
+
     PURPLE = "\033[95m"
     CYAN = "\033[96m"
     DARKCYAN = "\033[36m"
@@ -34,8 +35,9 @@ class Color():
     RED = "\033[91m"
 
 
-class Markup():
+class Markup:
     """ A simple markup class containing ANSI color codes. """
+
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
     END = "\033[0m"
