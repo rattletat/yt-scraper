@@ -149,6 +149,7 @@ Email: [rattletat@posteo.me](mailto:rattletat@posteo.me)
 
 ## License
 This plugin is free and unemcumbered software released into the public domain. 
+
 For more information, see the included [UNLICENSE][license-url] file.
 
 <!-- Markdown link & img dfn's -->
