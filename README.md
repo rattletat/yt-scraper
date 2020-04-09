@@ -74,7 +74,7 @@ $ yt-scraper -v search term 'cat'
 All global options:
 | Global options        | Default           | Description                                                                                                       |
 |-----------------------|-------------------|-------------------------------------------------------------------------------------------------------------------|
-| `-c`, `--config-path` | *System-specific* | Specifies a configuration file. The default is system-specific. For details, see [configuration](#Configuration). |
+| `-c`, `--config-path` | *System-specific* | Specifies a configuration file. For details, see [configuration](#Configuration). |
 | `-v`, `--verbose`     | False             | Shows more output during program execution.                                                                       |
 
 
