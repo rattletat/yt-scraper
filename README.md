@@ -35,24 +35,24 @@ For example the following command will return the first video when one searches 
 ```sh
 $ yt-scraper search term 'cat'
 ```
-> *VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))*
+> VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))
 
 One can also provide a video id or a video url as a starting point, which is more interesting when used with the `--depth` option:
 
 ```sh
 $ yt-scraper search id '0A2R27kCeD4' --depth 2
 ```
-> *VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))*  
-> *VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))*  
-> *VideoNode(videoId='hJpfROXlaPc', depth=2, rank=0, relatedVideos=('dElQqMWhDgA',))*  
+> VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))  
+> VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))  
+> VideoNode(videoId='hJpfROXlaPc', depth=2, rank=0, relatedVideos=('dElQqMWhDgA',))  
 
 Additionally, one can specify the number of videos that should be returned on each level by using the `--number` option. For example the following command returns two related videos from a given video (specified by it's url) and then from each sibling only one related video:
 ```sh
 $ yt-scraper search url 'https://www.youtube.com/watch?v=0A2R27kCeD4' --depth 1 --number 2 -number 1
 ```
-> *VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI', 'U5KLMeFK_UY'))*  
-> *VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))*  
-> *VideoNode(videoId='U5KLMeFK_UY', depth=1, rank=1, relatedVideos=('nFrb-C6I6Ps',))*  
+> VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI', 'U5KLMeFK_UY'))  
+> VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))  
+> VideoNode(videoId='U5KLMeFK_UY', depth=1, rank=1, relatedVideos=('nFrb-C6I6Ps',))  
 
 For the sake of brevity, you can shorten `--number` to `-n` and `--depth` to `-d`.
 
@@ -143,9 +143,8 @@ In general, the contribution process is somehow like this:
 ## Author
 Michael Brauweiler
 
-GitHub: [@rattletat][me-twitter-url]
-
-Email: [rattletat@posteo.me](mailto:rattletat@posteo.me)
+- GitHub: [@rattletat][me-twitter-url]
+- Email: [rattletat@posteo.me](mailto:rattletat@posteo.me)
 
 
 ## License
