@@ -63,12 +63,12 @@ def search(context, search_type, query, **options):
         echov("Starting search using video id {query}.", config["verbose"])
         start_ids = [query]
         # Shift 1 to right since we start one level lower
-        config["number"] = (1,) + config["number"] 
+        config["number"] = (1,) + tuple(config["number"])
     elif search_type == "url":
         echov("Starting search using the following video url:", config["verbose"])
         echov(query, config["verbose"])
         # Shift 1 to right since we start one level lower
-        config["number"] = (1,) + config["number"] 
+        config["number"] = (1,) + tuple(config["number"])
         qterm = parse.urlsplit(query).query
         video_id = parse.parse_qs(qterm)["v"][0]
         start_ids = [video_id]
