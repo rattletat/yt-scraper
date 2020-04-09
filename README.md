@@ -1,7 +1,7 @@
 # YouTube Scraper
 > A simple command utility to extract information from the YouTube API v3 for scientific purposes.
 
-[![GitHub license](license-img)](license-url)
+[![GitHub license](license-img)][license-url]
 
 ## About
 
@@ -10,12 +10,12 @@ This Python based command line utility enables the easy extraction of informatio
 
 ## Installation
 
-To install yt-scraper one can use [pip](pip-url):
+To install **yt-scraper** one can use [pip][pip-url]:
 ```sh
 sudo -H pip install yt-scraper
 ```
 
-To update yt-scraper you can add the `--upgrade` flag:
+To update **yt-scraper** you can add the `--upgrade` flag:
 
 ```sh
 sudo -H pip install --upgrade yt-scraper
@@ -33,24 +33,24 @@ For example the following command will return the first video when one searches 
 ```sh
 $ yt-scraper search term 'cat'
 ```
-*VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))*
+> *VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))*
 
 One can also provide a video id or a video url as a starting point, which is more interesting when used with the `--depth` option:
 
 ```sh
 $ yt-scraper search id '0A2R27kCeD4' --depth 2
 ```
-*VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))*
-*VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))*
-*VideoNode(videoId='hJpfROXlaPc', depth=2, rank=0, relatedVideos=('dElQqMWhDgA',))*
+> *VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI',))*  
+> *VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))*  
+> *VideoNode(videoId='hJpfROXlaPc', depth=2, rank=0, relatedVideos=('dElQqMWhDgA',))*  
 
 Additionally, one can specify the number of videos that should be returned on each level by using the `--number` option. For example the following command returns two related videos from a given video (specified by it's url) and then from each sibling only one related video:
 ```sh
 $ yt-scraper search url 'https://www.youtube.com/watch?v=0A2R27kCeD4' --depth 1 --number 2 -number 1
 ```
-*VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI', 'U5KLMeFK_UY'))*
-*VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))*
-*VideoNode(videoId='U5KLMeFK_UY', depth=1, rank=1, relatedVideos=('nFrb-C6I6Ps',))*
+> *VideoNode(videoId='0A2R27kCeD4', depth=0, rank=0, relatedVideos=('XewbmK0kmpI', 'U5KLMeFK_UY'))*  
+> *VideoNode(videoId='XewbmK0kmpI', depth=1, rank=0, relatedVideos=('hJpfROXlaPc',))*  
+> *VideoNode(videoId='U5KLMeFK_UY', depth=1, rank=1, relatedVideos=('nFrb-C6I6Ps',))*  
 
 For the sake of brevity, you can shorten `--number` to `-n` and `--depth` to `-d`.
 
@@ -94,7 +94,7 @@ Then put this file in your standard configuration folder. Typically this folder 
 - Unix: `~/.config/youtube-scraper`
 - Windows: `C:\Users\<user>\AppData\Roaming\YouTube Scraper`
 
-If the folder does not exist you may need to create it.
+If the folder does not exist, you may need to create it.
 
 
 ## Release History
@@ -119,34 +119,34 @@ Every of these features is going to be a minor patch:
 
 ## Contributing
 If you found a bug or have a suggestion, 
-please don't hesitate to [file an issue](git-new-issue-url).
+please don't hesitate to [file an issue][git-new-issue-url].
 
 Contributions in any form are welcomed. 
 I will accept pull-requests if they extent this program's functionality.
 
 To set up the development environment, 
-please install [Poetry](poetry-url) and run `poetry install` inside the project.
+please install [Poetry][poetry-url] and run `poetry install` inside the project.
 A test suite will be added soon.
 
 In general, the contribution process is somehow like this:
 
-1. Fork it (`git clone https://github.com/rattletat/yt-scraper`)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
+1. Fork it (`$ git clone https://github.com/rattletat/yt-scraper`)
+2. Create your feature branch (`$ git checkout -b feature/fooBar`)
+3. Commit your changes (`$ git commit -am 'Add some fooBar'`)
+4. Push to the branch (`$ git push origin feature/fooBar`)
 5. Create a new Pull Request
 
 
 ## Author
 Michael Brauweiler
 
-GitHub: [@rattletat](me-twitter-url)
+GitHub: [@rattletat][me-twitter-url]
 
 Email: [rattletat@posteo.me](mailto:rattletat@posteo.me)
 
 
 ## License
-This plugin is free and unemcumbered software released into the public domain. For more information, see the included [UNLICENSE](license-url) file.
+This plugin is free and unemcumbered software released into the public domain. For more information, see the included [UNLICENSE][license-url] file.
 
 <!-- Markdown link & img dfn's -->
 [license-img]: https://img.shields.io/github/license/rattletat/yt-scraper?style=for-the-badge
@@ -156,4 +156,4 @@ This plugin is free and unemcumbered software released into the public domain. F
 [poetry-url]: https://github.com/python-poetry/poetry
 [me-github-url]: https://github.com/rattletat
 [me-twitter-url]: https://twitter.com/m_brauweiler
-[license-url]: https://github.com/rattletat/yt-scraper/blob/master/LICENSE
+[license-url]: https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE
