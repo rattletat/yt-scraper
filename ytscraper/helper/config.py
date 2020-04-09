@@ -45,7 +45,7 @@ def load_config(config_path=None):
         The standard configuration directory is system specific:
         - Mac OS X: "~/Library/Application Support/YouTube Scraper"
         - Unix: "~/.config/youtube-scraper"
-        - Win7: C:\Users\<user>\AppData\Roaming\YouTube Scraper
+        - Windows: C:\Users\<user>\AppData\Roaming\YouTube Scraper
     """
     if config_path:
         config = toml.load(config_path)
