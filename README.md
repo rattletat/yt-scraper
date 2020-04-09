@@ -1,7 +1,9 @@
 # YouTube Scraper
 > A simple command utility to extract information from the YouTube API v3 for scientific purposes.
 
-[![GitHub license](license-img)][license-url]
+[![GitHub license](https://img.shields.io/github/license/rattletat/yt-scraper)](https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![version](https://img.shields.io/pypi/v/yt-scraper)](https://pypi.org/project/yt-scraper/)
 
 ## About
 
@@ -21,9 +23,9 @@ To update **yt-scraper** you can add the `--upgrade` flag:
 sudo -H pip install --upgrade yt-scraper
 ```
 
-## Usage example
+## Usage
 ### Commands
-Currently, there is only one command: *search*
+Currently, there is only one command supported by **yt-scraper**: *search*
 
 #### search
 The search command starts a video search from a given starting point, such as a search term or a video itself.
@@ -76,7 +78,7 @@ All global options:
 | `-v`, `--verbose`     | False             | Shows more output during program execution.                                                                       |
 
 
-### Configuration
+## Configuration
 Instead of repeatedly passing the same options to yt-scraper, one can specify these options in a `config.toml` file. These values will be used in all future queries as long as they are not get overwritten by actual command line options.
 
 For example, to always use the API key `ABCDEFGH` and a search depth of 3, where on each level one video less is returned, just create following configuration file:
@@ -122,7 +124,7 @@ If you found a bug or have a suggestion,
 please don't hesitate to [file an issue][git-new-issue-url].
 
 Contributions in any form are welcomed. 
-I will accept pull-requests if they extent this program's functionality.
+I will accept pull-requests if they extent **yt-scraper**'s functionality.
 
 To set up the development environment, 
 please install [Poetry][poetry-url] and run `poetry install` inside the project.
@@ -149,11 +151,9 @@ Email: [rattletat@posteo.me](mailto:rattletat@posteo.me)
 This plugin is free and unemcumbered software released into the public domain. For more information, see the included [UNLICENSE][license-url] file.
 
 <!-- Markdown link & img dfn's -->
-[license-img]: https://img.shields.io/github/license/rattletat/yt-scraper?style=for-the-badge
-[license-url]: https://github.com/rattletat/yt-scraper/blob/master/LICENSE
 [pip-url]: https://pip.pypa.io/en/stable/
 [git-new-issue-url]: https://github.com/rattletat/yt-scraper/issues/new
 [poetry-url]: https://github.com/python-poetry/poetry
 [me-github-url]: https://github.com/rattletat
 [me-twitter-url]: https://twitter.com/m_brauweiler
-[license-url]: https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE
+[license-url]: 
