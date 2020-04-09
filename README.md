@@ -89,7 +89,7 @@ api_key = "ABCDEFGH"
 number = [ 4, 3, 2, 1 ]
 depth = 3
 ```
-A example toml is included: [config.toml.example](config-url)
+A example toml is included: [config.toml.example][config-url]
 
 Then put this file in your standard configuration folder. Typically this folder can be found at the following system-specific locations:
 
@@ -155,9 +155,9 @@ For more information, see the included [UNLICENSE][license-url] file.
 
 <!-- Markdown link & img dfn's -->
 [pip-url]: https://pip.pypa.io/en/stable/
-[config-url]: https://github.com/rattletat/yt-scraper/blob/master/data/config.toml.example
+[config-url]: data/config.toml.example
 [git-new-issue-url]: https://github.com/rattletat/yt-scraper/issues/new
 [poetry-url]: https://github.com/python-poetry/poetry
 [me-github-url]: https://github.com/rattletat
 [me-twitter-url]: https://twitter.com/m_brauweiler
-[license-url]: https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE
+[license-url]: UNLICENSE
