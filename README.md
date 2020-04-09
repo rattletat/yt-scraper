@@ -1,8 +1,8 @@
 # YouTube Scraper
 > A simple command utility to extract information from the YouTube API v3 for scientific purposes.
 
-[![GitHub license](https://img.shields.io/github/license/rattletat/yt-scraper)](https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![GitHub license](https://img.shields.io/github/license/rattletat/yt-scraper)](https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE)
 [![version](https://img.shields.io/pypi/v/yt-scraper)](https://pypi.org/project/yt-scraper/)
 
 ## About
@@ -141,7 +141,7 @@ In general, the contribution process is somehow like this:
 
 
 ## Author
-Michael Brauweiler
+**Michael Brauweiler**
 
 - GitHub: [@rattletat][me-twitter-url]
 - Email: [rattletat@posteo.me](mailto:rattletat@posteo.me)
