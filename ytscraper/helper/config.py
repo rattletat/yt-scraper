@@ -1,5 +1,17 @@
 #!/usr/bin/env python
 
+"""Helper class for configuration
+
+This module contains helper functions to deal with 
+an external configuration file based on TOML. 
+
+It contains a function to load the configuration file into
+a python dictionary and another function to update
+and existing dictionary.
+
+    * load_config - Load a user config file from standard config folder.
+    * update_config - Update an existing dictionary with some provided values.
+"""
 import os
 
 import click
@@ -8,21 +20,6 @@ import toml
 from ytscraper.helper.echo import WARNING
 
 APP_NAME = "YouTube Scraper"
-
-
-def update_config(config, options):
-    """ Updates a configuration dictionary.
-
-        Parameters
-        ----------
-        config: dict
-            A dictionary that should be updated.
-        options: dict
-            Values that should be put into `config`.
-    """
-    for key, value in options.items():
-        if value:
-            config[key] = value
 
 
 def load_config(config_path=None):
@@ -63,3 +60,18 @@ def load_config(config_path=None):
             config = {}
 
     return config
+
+
+def update_config(config, options):
+    """ Updates a configuration dictionary.
+
+        Parameters
+        ----------
+        config: dict
+            A dictionary that should be updated.
+        options: dict
+            Values that should be put into `config`.
+    """
+    for key, value in options.items():
+        if value:
+            config[key] = value
