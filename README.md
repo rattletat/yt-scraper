@@ -2,7 +2,7 @@
 > A simple command utility to extract information from the YouTube API v3 for scientific purposes.
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![GitHub license](https://img.shields.io/github/license/rattletat/yt-scraper)](https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE)
+[![GitHub license](https://img.shields.io/github/license/rattletat/yt-scraper)](https://github.com/rattletat/yt-scraper/blob/master/LICENSE)
 [![version](https://img.shields.io/pypi/v/yt-scraper)](https://pypi.org/project/yt-scraper/)
 
 ## About
@@ -152,7 +152,7 @@ In general, the contribution process is somehow like this:
 ## License
 This plugin is free and unemcumbered software released into the public domain. 
 
-For more information, see the included [UNLICENSE][license-url] file.
+For more information, see the included [LICENSE][license-url] file.
 
 <!-- Markdown link & img dfn's -->
 [pip-url]: https://pip.pypa.io/en/stable/
@@ -162,4 +162,4 @@ For more information, see the included [UNLICENSE][license-url] file.
 [pypi-url]: https://pypi.org/project/yt-scraper/
 [me-github-url]: https://github.com/rattletat
 [me-twitter-url]: https://twitter.com/m_brauweiler
-[license-url]: UNLICENSE
+[license-url]: LICENSE
