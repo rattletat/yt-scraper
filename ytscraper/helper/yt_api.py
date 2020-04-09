@@ -128,7 +128,7 @@ def get_related_videos(
             relatedToVideoId=video_id,
             part="id",
             type="video",
-            maxResults=max_results + 1,  # relatedToVideoId returns 1 less
+            maxResults=50,  # relatedToVideo sometimes returns less than maxResults
             safeSearch=safe_search,
             regionCode=region_code,
         )

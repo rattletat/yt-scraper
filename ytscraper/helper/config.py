@@ -73,5 +73,5 @@ def update_config(config, options):
             Values that should be put into `config`.
     """
     for key, value in options.items():
-        if value:
+        if value or value == 0:
             config[key] = value
