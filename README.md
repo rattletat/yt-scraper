@@ -12,12 +12,12 @@ This Python based command line utility enables the easy extraction of informatio
 
 ## Installation
 
-To install **yt-scraper** one can use [pip][pip-url]:
+Install **yt-scraper** by using [pip][pip-url]:
 ```sh
 sudo -H pip install yt-scraper
 ```
 
-To update **yt-scraper** you can add the `--upgrade` flag:
+Update by adding the `--upgrade` flag:
 
 ```sh
 sudo -H pip install --upgrade yt-scraper
