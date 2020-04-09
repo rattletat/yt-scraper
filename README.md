@@ -156,4 +156,4 @@ This plugin is free and unemcumbered software released into the public domain. F
 [poetry-url]: https://github.com/python-poetry/poetry
 [me-github-url]: https://github.com/rattletat
 [me-twitter-url]: https://twitter.com/m_brauweiler
-[license-url]: 
+[license-url]: https://github.com/rattletat/yt-scraper/blob/master/UNLICENSE
