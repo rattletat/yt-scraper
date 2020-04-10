@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "yt-scraper"
-version = "0.4.4"
+version = "0.4.5"
 description = "Command line utility querying the YouTube API v3."
 readme = "README.md"
 authors = ["Michael Brauweiler <rattletat@posteo.me>"]
@@ -33,6 +33,7 @@ pyinstaller = "^3.6"
 bandit = "^1.6.2"
 rope = "^0.16.0"
 pep8 = "^1.7.1"
+pycodestyle = "^2.5.0"
 
 [tool.poetry.scripts]
 yt-scraper = 'ytscraper.app:run'
