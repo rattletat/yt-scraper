@@ -2,8 +2,8 @@
 
 """Helper class for configuration
 
-This module contains helper functions to deal with 
-an external configuration file based on TOML. 
+This module contains helper functions to deal with
+an external configuration file based on TOML.
 
 It contains a function to load the configuration file into
 a python dictionary and another function to update

@@ -8,13 +8,17 @@ import click
 
 from ytscraper.helper.config import update_config
 from ytscraper.helper.echo import echoe, echov
-from ytscraper.helper.node import construct_node_list
-from ytscraper.helper.yt_api import get_search_videos, get_youtube_handle
+from ytscraper.helper.yt_api import (
+    get_youtube_handle,
+    video_search,
+    video_info,
+    related_search,
+)
 
 
 @click.command()
 @click.argument(
-    "search-type", default="query", type=click.Choice(["term", "url", "id"])
+    "search-type", default="term", type=click.Choice(["term", "url", "id"])
 )
 @click.argument("query", nargs=1, required=True)
 @click.option(
@@ -24,21 +28,87 @@ from ytscraper.helper.yt_api import get_search_videos, get_youtube_handle
     type=click.IntRange(1, 50),
     help="Number of videos fetched per level.",
 )
-@click.option("--depth", "-d", type=int, help="Number of recursion steps.")
-@click.option("--api-key", "-k", type=str, help="API Key to use YouTube API v3.")
+@click.option(
+    "--max-depth",
+    "-d",
+    type=click.IntRange(0, 100),
+    help="Maximal number of recursion steps.",
+)
+@click.option(
+    "--output-dir",
+    "-o",
+    type=click.Path(
+        exists=True, file_okay=False, writable=True, resolve_path=True
+    ),
+    default=".",
+    help="Path to directory where output files are saved.",
+)
+@click.option(
+    "--output-format",
+    "-f",
+    type=click.Choice(["txt"]),
+    default="txt",
+    help="The file format of output files.",
+)
+@click.option(
+    "--api-key", "-k", type=str, help="API Key to use YouTube API v3."
+)
 @click.pass_context
 def search(context, search_type, query, **options):
     """Searches YouTube using a specified query."""
-    config = context.obj
 
-    # CONFIGURATION
-    echov("Updating configuration with command line options.", config["verbose"])
+    config = get_config(context, options)
+    validate(config)
+    handle = get_handle(config)
+
+    start_videos = get_starter_videos(config, handle, search_type, query)
+    nodes = build_nodes(config, handle, start_videos)
+
+    # Print nicely
+    echov("Query finished! Result:")
+    for node in nodes:
+        print(
+            "    " * node["depth"],
+            f"Depth: {node['depth']}, Rank: {node['rank']}, ID: {node['videoId']}",
+        )
+        print("    " * node["depth"], f"           Title: {node['title']}")
+        print(
+            "    " * node["depth"],
+            "           Related Videos: {}".format(node.get("relatedVideos")),
+        )
+
+
+def get_config(context, options):
+    """ Reads the configuration file and updates it
+    with the given command-line options. """
+    config = context.obj
+    echov(
+        "Updating configuration with command line options.", config["verbose"]
+    )
     update_config(config, options)
     echov("Done! Working with the following configuration:", config["verbose"])
     if config["verbose"]:
         pprint(config)
+    return config
 
-    # AUTHENTICATION
+
+def validate(config):
+    """ Checks validity of configuration and
+    sets default values if no options were given. """
+
+    # Default values
+    if "number" not in config:
+        config["number"] = (1,)
+    if "max_depth" not in config:
+        config["max_depth"] = 0
+
+    # Validity
+    config["number"] = tuple(config["number"],)
+    config["max_depth"] = int(config["max_depth"])
+
+
+def get_handle(config):
+    """ Obtains the YouTube resource handle using an API key. """
     echov("Starting YouTube authentication.", config["verbose"])
     if "api_key" not in config:
         echoe(
@@ -48,54 +118,76 @@ def search(context, search_type, query, **options):
         )
     handle = get_youtube_handle(config["api_key"])
     echov("API access established.", config["verbose"])
+    return handle
 
-    # DEFAULT VALUES
-    if "number" not in config:
-        config["number"] = (1, 0)
-    if "depth" not in config:
-        config["depth"] = 0
 
-    # ARGUMENT PARSING
+def get_starter_videos(config, handle, search_type, query):
+    echov("Starting search using query {query}.", config["verbose"])
     if search_type == "term":
-        echov("Starting search using query {query}.", config["verbose"])
-        start_ids = get_search_videos(handle, query, config["number"][0])
-    elif search_type == "id":
-        echov("Starting search using video id {query}.", config["verbose"])
-        start_ids = [query]
-    elif search_type == "url":
-        echov("Starting search using the following video url:", config["verbose"])
-        echov(query, config["verbose"])
+        return video_search(handle, config["number"][0], query)
+    if search_type == "id":
+        return video_info(handle, query)
+    if search_type == "url":
+        # Parse URL
         qterm = parse.urlsplit(query).query
         video_id = parse.parse_qs(qterm)["v"][0]
-        start_ids = [video_id]
-
-    if config["number"] != 0 and (search_type == "url" or search_type == "id"):
-        # Shift 1 to right since we start one level lower
-        config["number"] = (1,) + tuple(config["number"])
-
-    if config["depth"] == 0:
-        config["number"] = (config["number"][0], 0)
+        return video_info(handle, video_id)
+    raise click.BadParameter("Wrong search type.")
 
 
-    # QUERY
-    node_list = construct_node_list(handle, start_ids, 0, config["number"])
-    node_queue = deque(node_list)
-    processed_nodes = []
-    while True:
-        if len(node_queue) == 0:
-            break
-        node = node_queue.popleft()
-        processed_nodes.append(node)
-        echov("Current Video: " + node.videoId, config["verbose"])
-        if node.depth < config["depth"]:
-            # Clamp level_branch index to specified branch array.
-            new_nodes = construct_node_list(
-                handle, node.relatedVideos, node.depth + 1, config["number"]
-            )
-            node_queue.extend(new_nodes)
+def build_nodes(config, handle, starter_videos):
+    for rank, video in enumerate(starter_videos):
+        video.update({"rank": rank, "depth": 0})
+    queue = deque(starter_videos)
+    processed = []
+    while len(queue) > 0:
+        video = queue.popleft()
+        processed.append(video)
+        if video["depth"] >= config["max_depth"]:
+            continue
+        # Add children
+        num_children = _get_branching(config["number"], video["depth"])
+        children = related_search(handle, num_children, video["videoId"])
+        video["relatedVideos"] = list(map(lambda c: c["videoId"], children))
+        for rank, child in enumerate(children):
+            child.update({"rank": rank, "depth": video["depth"] + 1})
+        queue.extend(children)
+    return processed
 
-    echov("Query finished! Result:")
-    for node in processed_nodes:
-        pprint(node)
 
-    # TODO Save to file
+def _get_branching(container, index):
+    """ Returns the nearest valid element from an interable container.
+
+    This helper function returns an element from an iterable container.
+    If the given `index` is not valid within the `container`,
+    the function returns the closest element instead.
+
+    Parameter
+    ---------
+        container:
+            A non-empty iterable object.
+        index:
+            The index of an element that should be returned.
+
+    Returns
+    -------
+        object
+            The closest possible element from `container` for `index`.
+
+    Example
+    -------
+    The `container` can be an arbitrary iterable object such as a list::
+
+        l = ['a', 'b', 'c']
+        c1 = _get_clamped_index(l, 5)
+        c2 = _get_clamped_index(l, 1)
+        c3 = _get_clamped_index(l, -4)
+
+    The first call of the function using an index of 5 will return element 'c',
+    the second call will return 'b' and the third call will return 'a'.
+    """
+    maximal_index = len(container) - 1
+    minimal_index = 0
+    clamped_index = min(maximal_index, index)
+    clamped_index = max(minimal_index, clamped_index)
+    return container[clamped_index]

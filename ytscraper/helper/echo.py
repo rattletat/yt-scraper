@@ -2,11 +2,11 @@
 
 """Helper class for printing
 
-This module contains helper functions to beautify or ease 
+This module contains helper functions to beautify or ease
 the printing process to standard and error output.
 
 It contains a color and a markup class, defining specific ANSI codes.
-Moreover, four status badges for console output are defined, 
+Moreover, four status badges for console output are defined,
 as well as two wrapper functions around click.echo.
 
     * Color - color class containing ANSI color codes.
@@ -65,7 +65,7 @@ def echov(text, verbose=True, new_line=True):
         click.echo(INFO + text, nl=new_line)
 
 
-def echoe(text):
+def echoe(text, error=None):
     """ Prints text to error output using click.echo and exits.
 
     Parameter
@@ -74,4 +74,6 @@ def echoe(text):
         Text that is printed to error output.
     """
     click.echo(FAIL + text, err=True)
+    if error:
+        raise error
     sys.exit(1)
