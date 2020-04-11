@@ -108,11 +108,15 @@ If the folder does not exist, you may need to create it.
 * 0.3.0
     - Uploaded to [PyPI][pypi-url]
 * 0.4.0
-    - Command *search* released
+    - New command *search*
 * 0.5.0
     - Option `--depth` renamed to `--max-depth`
     - Video attributes, such as title, description, channel are fetched.
     - More consistent option handling
+* 0.6.0
+    - New export feature: *csv*
+    - New command: *config*
+    - New API options: *region-code, lang-code and safe-search*
 
 
 ## Roadmap
@@ -124,7 +128,7 @@ Every of these features is going to be a minor patch:
 - [ ] Add possibility to query more than 50 videos on one level.
 - [ ] Add youtube-dl integration for downloading subtitles.
 - [ ] Add a testing suite.
-- [ ] Add export functionality to SQLlite or Pandas.
+- [o] Add export functionality to CSV, SQLlite or Pandas.
  
 
 ## Contributing
