@@ -62,7 +62,7 @@ def echov(text, verbose=True, new_line=True):
         If set, a new line is added to the output.
     """
     if verbose:
-        click.echo(_INFO + text, nl=new_line)
+        click.echo(_INFO + str(text), nl=new_line)
 
 
 def echoe(text, error=None):
@@ -73,7 +73,7 @@ def echoe(text, error=None):
     text: str
         Text that is printed to error output.
     """
-    click.echo(_FAIL + text, err=True)
+    click.echo(_FAIL + str(text), err=True)
     if error:
         raise error
     sys.exit(1)
@@ -87,4 +87,4 @@ def echow(text):
     text: str
         Text that is printed to standard output.
     """
-    click.echo(_WARNING + text)
+    click.echo(_WARNING + str(text))
