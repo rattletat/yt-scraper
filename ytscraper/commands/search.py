@@ -133,9 +133,11 @@ def get_config(context, options):
 
 def validate(config):
     """ Checks validity of configuration. """
-    config["number"] = tuple(config["number"],)
     config["max_depth"] = int(config["max_depth"])
-    # config["output_dir"] = str(config["output_dir"])  # Can be Path
+
+    # Force number to be a list or a tuple
+    if isinstance(config["number"], int):
+        config["number"] = tuple((config["number"],))
 
 
 def get_handle(api_key):

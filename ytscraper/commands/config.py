@@ -42,7 +42,7 @@ def set(context, option, value):
     target_type = type(DEFAULT_OPTIONS[option])
     if not isinstance(value, target_type):
         raise click.BadArgumentUsage(
-            f"Given value '{value}' is not a valid type for '{option}'. Please provide a '{target_type.__name__}'."
+            f"Given value '{value}' is not a valid type for '{option}'. Please provide type '{target_type.__name__}'."
         )
     elif target_type is int and value < 0:
         raise click.BadArgumentUsage(
