@@ -16,7 +16,6 @@ import os
 
 import click
 import toml
-from pathlib import Path
 
 from ytscraper.helper.echo import echow
 
@@ -68,7 +67,7 @@ def load_config(config_path=None):
         except FileNotFoundError:
             echow("Configuration file not found:")
             echow(str(config_path))
-            if click.confirm('Do you want to create a default configuration?'):
+            if click.confirm("Do you want to create a default configuration?"):
                 config_path = _get_default_config_path(create=True)
                 config = toml.load(config_path)
             else:
@@ -119,12 +118,6 @@ def _get_default_config_path(create=False):
     config_path = os.path.join(config_dir, "config.toml")
     if create and not os.path.exists(config_dir):
         os.makedirs(config_dir)
-        with open(config_path, 'w'):
+        with open(config_path, "w"):
             pass
     return config_path
-
-
-def get_version():
-   path = Path(__file__).resolve().parents[2] / 'pyproject.toml'
-   pyproject = toml.loads(open(str(path)).read())
-   return pyproject['tool']['poetry']['version']
