@@ -9,7 +9,7 @@ It contains a function to load the configuration file into
 a python dictionary and another function to update
 and existing dictionary.
 
-    * load_config - Load a user config file from standard config folder.
+    * load_config - Load a user config file from standard config directory.
     * update_config - Update an existing dictionary with some provided values.
 """
 import os
@@ -17,9 +17,20 @@ import os
 import click
 import toml
 
-from ytscraper.helper.echo import WARNING
+from ytscraper.helper.echo import echow
 
-APP_NAME = "YouTube Scraper"
+_APP_NAME = "YouTube Scraper"
+DEFAULT_OPTIONS = {
+    "verbose": False,
+    "number": 1,
+    "max_depth": 0,
+    "api_key": "",
+    "output_dir": "",
+    "output_format": "csv",
+    "region_code": "de",
+    "lang_code": "de",
+    "safe_search": "none",
+}
 
 
 def load_config(config_path=None):
@@ -33,7 +44,7 @@ def load_config(config_path=None):
     config_path: str, optional
         The file path to the configuration file. If not specified,
         the method tries to read the default system-specific
-        configuration folder.
+        configuration directory.
 
     Returns
     -------
@@ -51,19 +62,33 @@ def load_config(config_path=None):
         config = toml.load(config_path)
     else:
         try:
-            config_folder = click.get_app_dir(APP_NAME, roaming=True)
-            config_path = os.path.join(config_folder, "config.toml")
-            config = toml.load(config_path)
+            config = toml.load(_get_default_config_path())
         except FileNotFoundError:
-            click.echo(WARNING + "Configuration file not found:")
-            click.echo(WARNING + config_path)
+            echow("Configuration file not found:")
+            echow(config_path)
             config = {}
 
     return config
 
 
+def write_config(config, config_path=None):
+    # Check for valid keys
+    for key in config:
+        if key not in DEFAULT_OPTIONS:
+            raise click.BadArgumentUsage(
+                f"{key} is not a valid configuaration key!\n \
+                        Allowed keys are:\n{list(DEFAULT_OPTIONS)}"
+            )
+    # Check if path is given
+    if not config_path:
+        config_path = _get_default_config_path()
+    # Write config file
+    with open(config_path, "w") as f:
+        toml.dump(config, f)
+
+
 def update_config(config, options):
-    """ Updates a configuration dictionary.
+    """ Updates a configuration dictionary and inserts default values.
 
         Parameters
         ----------
@@ -74,4 +99,17 @@ def update_config(config, options):
     """
     for key, value in options.items():
         if value or value == 0:
-            config[key] = value
+            if key in DEFAULT_OPTIONS:
+                config[key] = value
+            else:
+                print(key)
+                echow("Invalid option given: ", key)
+    for key in DEFAULT_OPTIONS:
+        if key not in config:
+            config[key] = DEFAULT_OPTIONS[key]
+
+
+def _get_default_config_path():
+    config_dir = click.get_app_dir(_APP_NAME, roaming=True)
+    config_path = os.path.join(config_dir, "config.toml")
+    return config_path
