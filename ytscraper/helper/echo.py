@@ -23,7 +23,7 @@ if sys.platform.lower() == "win32":
     os.system("color")
 
 
-class Color:
+class _Color:
     """ A simple color class containing ANSI color codes. """
 
     PURPLE = "\033[95m"
@@ -35,7 +35,7 @@ class Color:
     RED = "\033[91m"
 
 
-class Markup:
+class _Markup:
     """ A simple markup class containing ANSI color codes. """
 
     BOLD = "\033[1m"
@@ -43,10 +43,10 @@ class Markup:
     END = "\033[0m"
 
 
-INFO = Markup.BOLD + Color.PURPLE + "[STATUS] " + Markup.END
-USAGE = Markup.BOLD + Color.YELLOW + "[USAGE] " + Markup.END
-FAIL = Markup.BOLD + Color.RED + "[ERROR] " + Markup.END
-WARNING = Markup.BOLD + Color.YELLOW + "[WARNING] " + Markup.END
+_INFO = _Markup.BOLD + _Color.PURPLE + "[STATUS] " + _Markup.END
+_USAGE = _Markup.BOLD + _Color.YELLOW + "[USAGE] " + _Markup.END
+_FAIL = _Markup.BOLD + _Color.RED + "[ERROR] " + _Markup.END
+_WARNING = _Markup.BOLD + _Color.YELLOW + "[WARNING] " + _Markup.END
 
 
 def echov(text, verbose=True, new_line=True):
@@ -62,7 +62,7 @@ def echov(text, verbose=True, new_line=True):
         If set, a new line is added to the output.
     """
     if verbose:
-        click.echo(INFO + text, nl=new_line)
+        click.echo(_INFO + text, nl=new_line)
 
 
 def echoe(text, error=None):
@@ -73,7 +73,18 @@ def echoe(text, error=None):
     text: str
         Text that is printed to error output.
     """
-    click.echo(FAIL + text, err=True)
+    click.echo(_FAIL + text, err=True)
     if error:
         raise error
     sys.exit(1)
+
+
+def echow(text):
+    """ Prints text warning to standard output and prints message.
+
+    Parameter
+    ---------
+    text: str
+        Text that is printed to standard output.
+    """
+    click.echo(_WARNING + text)
