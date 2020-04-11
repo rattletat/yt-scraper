@@ -50,10 +50,7 @@ def video_info(handle, video_id, **api_options):
 @sleep_and_retry
 @limits(3_000_000, 100)
 def _get_response(mod_handle, **api_options):
-    try:
-        return mod_handle.list(**api_options).execute()
-    except HttpError as e:
-        echoe("I am sorry to inform you that this program is going to fail!", e)
+    return mod_handle.list(**api_options).execute()
 
 
 def _extract_data(item):
