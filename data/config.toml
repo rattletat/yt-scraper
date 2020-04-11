@@ -7,6 +7,7 @@ output_format = "csv"
 region_code = "de"
 lang_code = "de"
 safe_search = "moderate"
+encoding = "utf-8"
 
 # Global options
 verbose = true

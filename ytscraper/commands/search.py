@@ -70,7 +70,7 @@ verbose = False
 @click.option(
     "--encoding",
     "-e",
-    type=click.Choice(["ascii", "utf-8"]),
+    type=click.Choice(["ascii", "utf-8", "smart"]),
     help="Transform text to which encoding.",
 )
 @click.pass_context

@@ -33,9 +33,11 @@ def get_call_directory():
 
 
 def filter_text(text, encoding="ascii"):
-    text = text.encode(encoding, "ignore").decode()
-    # text = re.sub(r"<[^>]*>", " ", text)
-    # text = re.sub(r"\[[^\]]*\]", " ", text)
-    # text = re.sub(r'[^a-zA-ZäöüÄÖÜß\s]*', '', text)
-    # text = re.sub(r"\s+", " ", text).strip()
+    if encoding == 'smart':
+        text = re.sub(r"<[^>]*>", " ", text)
+        text = re.sub(r"\[[^\]]*\]", " ", text)
+        text = re.sub(r'[^a-zA-ZäöüÄÖÜß\s]*', '', text)
+        text = re.sub(r"\s+", " ", text).strip()
+    else:
+        text = text.encode(encoding, "ignore").decode()
     return text
