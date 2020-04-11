@@ -140,7 +140,7 @@ def get_handle(api_key):
 
 
 def get_starter_videos(config, handle, api_options, search_type, query):
-    echov("Starting search using query {query}.", verbose)
+    echov(f"Starting search using query {query}.", verbose)
     if search_type == "term":
         return video_search(handle, config["number"][0], query, **api_options)
     if search_type == "id":
