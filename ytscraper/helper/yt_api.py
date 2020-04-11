@@ -64,7 +64,7 @@ def _extract_data(item):
             result["videoId"] = item["id"]
     if "snippet" in item:
         result["title"] = item["snippet"]["title"]
-        result["description"] = item["snippet"]["description"]
+        # result["description"] = item["snippet"]["description"]
         result["publishedAt"] = item["snippet"]["publishedAt"]
         result["channdelId"] = item["snippet"]["channelId"]
         result["channelTitle"] = item["snippet"]["channelTitle"]

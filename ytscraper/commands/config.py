@@ -42,11 +42,11 @@ def set(context, option, value):
     target_type = type(DEFAULT_OPTIONS[option])
     if not isinstance(value, target_type):
         raise click.BadArgumentUsage(
-            f"Given value '{value}' is not a valid type for {option}. Please provide a {target_type.__name__}."
+            f"Given value '{value}' is not a valid type for '{option}'. Please provide a '{target_type.__name__}'."
         )
     elif target_type is int and value < 0:
         raise click.BadArgumentUsage(
-            f"Given integer {value} is negative! Please provide a non-negative value.."
+            f"Given integer '{value}' is negative! Please provide a non-negative value.."
         )
 
     config[option] = value
@@ -76,6 +76,7 @@ def unset(context, option):
     echov("Successfully written!")
 
 
+# TODO: Add all: to show everything
 @config.command()
 @click.argument("option", type=click.Choice(DEFAULT_OPTIONS), metavar="KEY")
 @click.pass_context
@@ -83,7 +84,7 @@ def get(context, option):
     """ Shows a default option."""
     config = context.obj["config"]
     if option in config:
-        echov(f"The value of '{option}' is set to {config[option]}.")
+        echov(f"The value of '{option}' is set to '{config[option]}'.")
     else:
         echow(f"The value of '{option}' is not set!")
 
@@ -91,7 +92,7 @@ def get(context, option):
 @config.command()
 @click.pass_context
 def clear(context):
-    """ Unsets a default option."""
+    """ Clear all configurations. """
     config_path = context.obj["config_path"]
 
     if click.confirm(f"Do you really want to clear the configuration file?"):
