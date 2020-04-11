@@ -10,43 +10,39 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from ratelimit import limits, sleep_and_retry
 
-from ytscraper.helper.echo import echoe, echoe
-
-
-def video_info(handle, video_id, **api_options):
-    if "id" not in api_options:
-        api_options["id"] = video_id
-    if "part" not in api_options:
-        api_options["part"] = "id,snippet"
-    response = _get_response(handle.videos(), **api_options)
-    video_data = [_extract_data(video) for video in response["items"]]
-    return video_data
+from ytscraper.helper.echo import echow, echoe
 
 
 def related_search(handle, number, videoId, **api_options):
     api_options["relatedToVideoId"] = videoId
+    api_options["maxResults"] = number + 1
     return _search(handle, number, **api_options)
 
 
 def video_search(handle, number, search_term, **api_options):
     api_options["q"] = search_term
+    api_options["maxResults"] = number
     return _search(handle, number, **api_options)
 
 
 def _search(handle, number, **api_options):
-    if "type" not in api_options:
-        api_options["type"] = "video"
-    if "maxResults" not in api_options:
-        api_options["maxResults"] = 50
-    if "safeSearch" not in api_options:
-        api_options["safeSearch"] = "none"
-    if "regionCode" not in api_options:
-        api_options["regionCode"] = "de"
-    if "part" not in api_options:
-        api_options["part"] = "id,snippet"
+    api_options["type"] = "video"
+    api_options["part"] = "id,snippet"
     response = _get_response(handle.search(), **api_options)
     video_data = [_extract_data(video) for video in response["items"]]
+    if len(video_data) != number:
+        echow(
+            f"API gave different number of videos than requested: {len(video_data)} instead of {number}!"
+        )
     return video_data[:number]
+
+
+def video_info(handle, video_id, **api_options):
+    api_options["id"] = video_id
+    api_options["part"] = "id,snippet"
+    response = _get_response(handle.videos(), **api_options)
+    video_data = [_extract_data(video) for video in response["items"]]
+    return video_data
 
 
 @sleep_and_retry
@@ -55,15 +51,17 @@ def _get_response(mod_handle, **api_options):
     try:
         return mod_handle.list(**api_options).execute()
     except HttpError as e:
-        echoe(
-            "I am sorry to inform you that this program is going to fail!", e
-        )
+        echoe("I am sorry to inform you that this program is going to fail!", e)
 
 
 def _extract_data(item):
     result = {}
     if "id" in item:
-        result["videoId"] = item["id"]["videoId"]
+        # Result between search term and relatedToVideoId differs
+        try:
+            result["videoId"] = item["id"]["videoId"]
+        except TypeError:
+            result["videoId"] = item["id"]
     if "snippet" in item:
         result["title"] = item["snippet"]["title"]
         result["description"] = item["snippet"]["description"]
