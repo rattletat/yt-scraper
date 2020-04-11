@@ -5,9 +5,14 @@ import re
 import sys
 
 
-def export_to_csv(nodes, output_dir):
-    nodes_path = os.path.join(output_dir, "nodes.csv")
-    edges_path = os.path.join(output_dir, "edges.csv")
+def export_to_csv(nodes, output_dir, output_name):
+    if output_name:
+        nodes_path = os.path.join(output_dir, f"{output_name}_nodes.csv")
+        edges_path = os.path.join(output_dir, f"{output_name}_edges.csv")
+    else:
+        nodes_path = os.path.join(output_dir, f"nodes.csv")
+        edges_path = os.path.join(output_dir, f"edges.csv")
+
     node_path_exists = os.path.exists(nodes_path)
     edge_path_exists = os.path.exists(edges_path)
 

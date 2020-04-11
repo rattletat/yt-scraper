@@ -6,9 +6,10 @@ from pprint import pprint
 from urllib import parse
 
 import click
+from googleapiclient.errors import HttpError
 
 from ytscraper.helper.configfile import update_config
-from ytscraper.helper.echo import echoe, echov
+from ytscraper.helper.echo import echoe, echov, echow
 from ytscraper.helper.export import export_to_csv, filter_text
 from ytscraper.helper.yt_api import (
     get_youtube_handle,
@@ -55,6 +56,12 @@ verbose = False
     help="The file format of output files.",
 )
 @click.option(
+    "--output-name",
+    "-N",
+    type=str,
+    help="The name prefix of the output files.",
+)
+@click.option(
     "--region-code",
     "-r",
     type=str,
@@ -77,6 +84,13 @@ verbose = False
     "-e",
     type=click.Choice(["ascii", "utf-8", "smart"]),
     help="Transform text to which encoding.",
+)
+@click.option(
+    "--unique",
+    "-u",
+    is_flag = True,
+    default = False,
+    help="Do not process nodes again.",
 )
 @click.pass_context
 def search(context, search_type, query, **options):
@@ -106,7 +120,7 @@ def search(context, search_type, query, **options):
 
     if config["output_dir"] and config["output_format"] == "csv":
         echov("Query finished! Start exporting files!", verbose)
-        export_to_csv(nodes, config["output_dir"])
+        export_to_csv(nodes, config["output_dir"], config["output_name"])
         echov(f"Exported results to: " + config["output_dir"])
 
     if not config["output_dir"] or verbose:
@@ -185,22 +199,40 @@ def build_nodes(config, handle, api_options, starter_videos):
         video.update({"rank": rank, "depth": 0})
     queue = deque(starter_videos)
     processed = []
+    processed_ids = set()
     while len(queue) > 0:
         video = queue.popleft()
         echov(
             f"Processing video {video['videoId']} (Depth: {video['depth']}).", verbose
         )
         processed.append(video)
+        processed_ids.add(video['videoId'])
         if video["depth"] >= config["max_depth"]:
             video["relatedVideos"] = list()
             continue
         # Add children
         num_children = _get_branching(config["number"], video["depth"])
-        children = related_search(handle, num_children, video["videoId"], **api_options)
-        video["relatedVideos"] = list(map(lambda c: c["videoId"], children))
-        for rank, child in enumerate(children):
-            child.update({"rank": rank, "depth": video["depth"] + 1})
-        queue.extend(children)
+        while True:
+            try:
+                children = related_search(handle, num_children, video["videoId"], **api_options)
+                video["relatedVideos"] = list(map(lambda c: c["videoId"], children))
+                for rank, child in enumerate(children):
+                    child.update({"rank": rank, "depth": video["depth"] + 1})
+                if config["unique"]:
+                    queue.extend(child for child in children if child['videoId'] not in processed_ids)
+                else:
+                    queue.extend(children)
+                break
+            except HttpError as e:
+                sys.tracebacklimit = 0
+                echow("Http error received:")
+                echow(e)
+                if click.confirm("Do you want to enter another API key?"):
+                    api_key = click.prompt("Enter your API key", type=str)
+                    handle = get_youtube_handle(api_key)
+                else: 
+                    echoe("No API key provided. Exiting.") 
+
     return processed
 
 
@@ -240,3 +272,5 @@ def _get_branching(container, index):
     clamped_index = min(maximal_index, index)
     clamped_index = max(minimal_index, clamped_index)
     return container[clamped_index]
+
+    # except HttpError as e:

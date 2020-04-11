@@ -27,10 +27,12 @@ DEFAULT_OPTIONS = {
     "api_key": "",
     "output_dir": "",
     "output_format": "csv",
+    "output_name": "",
     "region_code": "de",
     "lang_code": "de",
     "safe_search": "none",
     "encoding": "utf-8",
+    "unique": False,
 }
 
 
