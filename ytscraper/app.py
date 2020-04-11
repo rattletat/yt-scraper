@@ -1,28 +1,23 @@
-from pprint import pprint
+#!/usr/bin/env python
 
 import click
 
-from ytscraper.commands import fetch, search
-from ytscraper.helper.config import load_config, update_config
+from ytscraper.commands import config, search
+from ytscraper.helper.configfile import load_config, update_config
 from ytscraper.helper.echo import echov
 
 
 @click.group()
-@click.option(
-    "--config-path", "-c", type=click.Path(), help="YAML configuration file."
-)
+@click.option("--config-path", "-c", type=click.Path(), help="YAML configuration file.")
 @click.option("--verbose", "-v", is_flag=True, help="Show more output.")
 @click.pass_context
 def run(context, config_path, verbose):
     echov("Reading configuration file.", verbose)
     context.obj = {}
-    update_config(context.obj, load_config(config_path))
-    echov("Read the following configuration:", verbose)
-    if verbose:
-        pprint(context.obj)
-
+    context.obj["config"] = load_config(config_path)
     context.obj["verbose"] = verbose
+    context.obj["config_path"] = config_path
 
 
 run.add_command(search.search)
-run.add_command(fetch.fetch)
+run.add_command(config.config)
