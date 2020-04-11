@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import csv
 import os
-import sys
 import re
+import sys
 
 
 def export_to_csv(nodes, output_dir):

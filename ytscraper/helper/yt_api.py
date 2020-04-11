@@ -6,12 +6,13 @@ This module contains helper function to communicate with
 Google"s YouTube API v3.
 """
 
+import re
+
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from ratelimit import limits, sleep_and_retry
 
-from ytscraper.helper.echo import echow, echoe
-import re
+from ytscraper.helper.echo import echoe, echow
 
 
 def related_search(handle, number, videoId, **api_options):

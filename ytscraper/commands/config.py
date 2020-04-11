@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
+import ast
+from pprint import pprint
+
 import click
 
+from ytscraper.helper.configfile import DEFAULT_OPTIONS, load_config, write_config
 from ytscraper.helper.echo import echov, echow
-from ytscraper.helper.configfile import load_config, write_config
-from ytscraper.helper.configfile import DEFAULT_OPTIONS
-from pprint import pprint
-import ast
 
 
 @click.group()

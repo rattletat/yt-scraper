@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 from collections import deque
 from pprint import pprint
 from urllib import parse
@@ -11,16 +12,20 @@ from ytscraper.helper.echo import echoe, echov
 from ytscraper.helper.export import export_to_csv, filter_text
 from ytscraper.helper.yt_api import (
     get_youtube_handle,
-    video_search,
-    video_info,
     related_search,
+    video_info,
+    video_search,
 )
 
 verbose = False
 
 
 @click.command()
-@click.argument("search-type", default="term", type=click.Choice(["term", "url", "id"]))
+@click.argument(
+    "search-type",
+    default="term",
+    type=click.Choice(["term", "url", "id", "input"]),
+)
 @click.argument("query", nargs=1, required=True)
 @click.option(
     "--number",
@@ -165,6 +170,13 @@ def get_starter_videos(config, handle, api_options, search_type, query):
         qterm = parse.urlsplit(query).query
         video_id = parse.parse_qs(qterm)["v"][0]
         return video_info(handle, video_id)
+    if search_type == "input":
+        if query == "-":
+            return video_info(handle, ",".join(sys.stdin))
+        else:
+            with open(query) as f:
+                return video_info(handle, ",".join(f))
+
     raise click.BadParameter("Wrong search type.")
 
 
