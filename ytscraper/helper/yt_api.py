@@ -11,6 +11,7 @@ from googleapiclient.errors import HttpError
 from ratelimit import limits, sleep_and_retry
 
 from ytscraper.helper.echo import echow, echoe
+import re
 
 
 def related_search(handle, number, videoId, **api_options):
@@ -63,10 +64,10 @@ def _extract_data(item):
         except TypeError:
             result["videoId"] = item["id"]
     if "snippet" in item:
-        result["title"] = item["snippet"]["title"]
-        # result["description"] = item["snippet"]["description"]
-        result["publishedAt"] = item["snippet"]["publishedAt"]
         result["channdelId"] = item["snippet"]["channelId"]
+        result["title"] = item["snippet"]["title"]
+        result["description"] = item["snippet"]["description"]
+        result["publishedAt"] = item["snippet"]["publishedAt"]
         result["channelTitle"] = item["snippet"]["channelTitle"]
     return result
 

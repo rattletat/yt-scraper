@@ -10,7 +10,7 @@ from ytscraper.helper.echo import echov
 @click.group()
 @click.option("--config-path", "-c", type=click.Path(), help="YAML configuration file.")
 @click.option("--verbose", "-v", is_flag=True, help="Show more output.")
-@click.version_option(None, "-v", "--version", message=f"Version: %(version)s")
+@click.version_option(None, "--version", message=f"Version: %(version)s")
 @click.pass_context
 def run(context, config_path, verbose):
     echov("Reading configuration file.", verbose)

@@ -8,7 +8,7 @@ import click
 
 from ytscraper.helper.configfile import update_config
 from ytscraper.helper.echo import echoe, echov
-from ytscraper.helper.export import export_to_csv
+from ytscraper.helper.export import export_to_csv, get_call_directory, filter_text
 from ytscraper.helper.yt_api import (
     get_youtube_handle,
     video_search,
@@ -67,6 +67,12 @@ verbose = False
     type=click.Choice(["none", "moderate", "strict"]),
     help="Return filtered results.",
 )
+@click.option(
+    "--encoding",
+    "-e",
+    type=click.Choice(["ascii", "utf-8"]),
+    help="Transform text to which encoding.",
+)
 @click.pass_context
 def search(context, search_type, query, **options):
     """Searches YouTube using a specified query."""
@@ -87,23 +93,31 @@ def search(context, search_type, query, **options):
 
     start_videos = get_starter_videos(config, handle, api_options, search_type, query)
     nodes = build_nodes(config, handle, api_options, start_videos)
+    # Filter nodes
+    for node in nodes:
+        for key in node:
+            if isinstance(node[key], str):
+                node[key] = filter_text(node[key], encoding=config['encoding'])
 
-    if config["output_dir"] and config["output_format"] == "csv":
+    output_dir = config["output_dir"]
+    if config["output_format"] == "csv":
         echov("Query finished! Start exporting files!", verbose)
-        export_to_csv(nodes, config["output_dir"])
-        echov(f"Query finished! Exported results to {config['output_dir']}.")
-    else:
-        echov("Query finished! Result:")
-        for node in nodes:
-            print(
-                "    " * node["depth"],
-                f"Depth: {node['depth']}, Rank: {node['rank']}, ID: {node['videoId']}",
-            )
-            print("    " * node["depth"], f"           Title: {node['title']}")
-            print(
-                "    " * node["depth"],
-                "           Related Videos: {}".format(node.get("relatedVideos")),
-            )
+        if not output_dir:
+            output_dir = get_call_directory()
+        export_to_csv(nodes, output_dir)
+        echov(f"Exported results to {output_dir}.")
+
+    echov("Result:")
+    for node in nodes:
+        print(
+            "    " * node["depth"],
+            f"Depth: {node['depth']}, Rank: {node['rank']}, ID: {node['videoId']}",
+        )
+        print("    " * node["depth"], f"           Title: {node['title']}")
+        print(
+            "    " * node["depth"],
+            "           Related Videos: {}".format(node.get("relatedVideos")),
+        )
 
 
 def get_config(context, options):
@@ -123,6 +137,7 @@ def validate(config):
     """ Checks validity of configuration. """
     config["number"] = tuple(config["number"],)
     config["max_depth"] = int(config["max_depth"])
+    config["output_dir"] = str(config["output_dir"])  # Can be Path
 
 
 def get_handle(api_key):
