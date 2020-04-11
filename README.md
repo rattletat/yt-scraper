@@ -61,7 +61,7 @@ For the sake of brevity, you can shorten `--number` to `-n` and `--depth` to `-d
 | Search options    | Default    | Description                                                                             |
 |-------------------|------------|-----------------------------------------------------------------------------------------|
 | `-n`, `--number`  | 1          | Number of the videos fetched per level. Can be specified multiple times for each level. |
-| `-d`, `--depth`   | 0          | Number of recursion steps to perform.                                                   |
+| `-d`, `--max-depth`   | 0          | Number of recursion steps to perform.                                                   |
 | `-k`, `--api-key` | *Required* | The API key that should be used to query the YouTube API v3.                            |
 
 ### Global Options
@@ -88,8 +88,9 @@ For example, to always use the API key `ABCDEFGH` and a search depth of 3, where
 api_key = "ABCDEFGH"
 number = [ 4, 3, 2, 1 ]
 depth = 3
+verbose = true
 ```
-A example toml is included: [config.toml.example][config-url]
+A example toml is included: [config.toml][config-url]
 
 Then put this file in your standard configuration folder. Typically this folder can be found at the following system-specific locations:
 
@@ -108,13 +109,17 @@ If the folder does not exist, you may need to create it.
     - Uploaded to [PyPI][pypi-url]
 * 0.4.0
     - Command *search* released
+* 0.5.0
+    - Option `--depth` renamed to `--max-depth`
+    - Video attributes, such as title, description, channel are fetched.
+    - More consistent option handling
 
 
 ## Roadmap
 
 Every of these features is going to be a minor patch:
 
-- [ ] Add node video data attributes, such as title and description.
+- [X] Add node video data attributes, such as title and description.
 - [ ] Add possibility to specify more than one API key to switch seamlessly.
 - [ ] Add possibility to query more than 50 videos on one level.
 - [ ] Add youtube-dl integration for downloading subtitles.
@@ -156,7 +161,7 @@ For more information, see the included [UNLICENSE][license-url] file.
 
 <!-- Markdown link & img dfn's -->
 [pip-url]: https://pip.pypa.io/en/stable/
-[config-url]: data/config.toml.example
+[config-url]: data/config.toml
 [git-new-issue-url]: https://github.com/rattletat/yt-scraper/issues/new
 [poetry-url]: https://github.com/python-poetry/poetry
 [pypi-url]: https://pypi.org/project/yt-scraper/
