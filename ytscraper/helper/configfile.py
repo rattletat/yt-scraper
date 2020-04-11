@@ -26,7 +26,7 @@ DEFAULT_OPTIONS = {
     "max_depth": 0,
     "api_key": "",
     "output_dir": "",
-    "output_format": "",
+    "output_format": "csv",
     "region_code": "de",
     "lang_code": "de",
     "safe_search": "none",

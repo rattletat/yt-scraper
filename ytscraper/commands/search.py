@@ -97,27 +97,25 @@ def search(context, search_type, query, **options):
     for node in nodes:
         for key in node:
             if isinstance(node[key], str):
-                node[key] = filter_text(node[key], encoding=config['encoding'])
+                node[key] = filter_text(node[key], encoding=config["encoding"])
 
-    output_dir = config["output_dir"]
-    if config["output_format"] == "csv":
+    if config["output_dir"] and config["output_format"] == "csv":
         echov("Query finished! Start exporting files!", verbose)
-        if not output_dir:
-            output_dir = get_call_directory()
-        export_to_csv(nodes, output_dir)
-        echov(f"Exported results to {output_dir}.")
+        export_to_csv(nodes, config["output_dir"])
+        echov(f"Exported results to: " + config["output_dir"])
 
-    echov("Result:")
-    for node in nodes:
-        print(
-            "    " * node["depth"],
-            f"Depth: {node['depth']}, Rank: {node['rank']}, ID: {node['videoId']}",
-        )
-        print("    " * node["depth"], f"           Title: {node['title']}")
-        print(
-            "    " * node["depth"],
-            "           Related Videos: {}".format(node.get("relatedVideos")),
-        )
+    if not config["output_dir"] or verbose:
+        echov("Result:")
+        for node in nodes:
+            print(
+                "    " * node["depth"],
+                f"Depth: {node['depth']}, Rank: {node['rank']}, ID: {node['videoId']}",
+            )
+            print("    " * node["depth"], f"           Title: {node['title']}")
+            print(
+                "    " * node["depth"],
+                "           Related Videos: {}".format(node.get("relatedVideos")),
+            )
 
 
 def get_config(context, options):
@@ -137,7 +135,7 @@ def validate(config):
     """ Checks validity of configuration. """
     config["number"] = tuple(config["number"],)
     config["max_depth"] = int(config["max_depth"])
-    config["output_dir"] = str(config["output_dir"])  # Can be Path
+    # config["output_dir"] = str(config["output_dir"])  # Can be Path
 
 
 def get_handle(api_key):

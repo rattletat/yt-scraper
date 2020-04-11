@@ -12,7 +12,6 @@ def export_to_csv(nodes, output_dir):
     edges = set(
         (node["videoId"], child) for node in nodes for child in node["relatedVideos"]
     )
-    print(edges)
     with open(edges_path, "w", newline="") as out:
         csv_out = csv.writer(out, delimiter="\t")
         csv_out.writerow(["origin", "target"])
@@ -33,10 +32,10 @@ def get_call_directory():
 
 
 def filter_text(text, encoding="ascii"):
-    if encoding == 'smart':
+    if encoding == "smart":
         text = re.sub(r"<[^>]*>", " ", text)
         text = re.sub(r"\[[^\]]*\]", " ", text)
-        text = re.sub(r'[^a-zA-ZäöüÄÖÜß\s]*', '', text)
+        text = re.sub(r"[^a-zA-ZäöüÄÖÜß\s]*", "", text)
         text = re.sub(r"\s+", " ", text).strip()
     else:
         text = text.encode(encoding, "ignore").decode()
