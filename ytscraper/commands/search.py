@@ -8,7 +8,7 @@ import click
 
 from ytscraper.helper.configfile import update_config
 from ytscraper.helper.echo import echoe, echov
-from ytscraper.helper.export import export_to_csv, get_call_directory, filter_text
+from ytscraper.helper.export import export_to_csv, filter_text
 from ytscraper.helper.yt_api import (
     get_youtube_handle,
     video_search,
