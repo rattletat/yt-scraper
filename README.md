@@ -142,13 +142,15 @@ Forgetful? Just double-check by typing `get` instead of `set`:
 ```sh
 $ yt-scraper config get encoding
 ```
-> [STATUS] The value of 'encoding' is set to 'utf-8'.
+```
+[STATUS] The value of 'encoding' is set to 'utf-8'.
+```
 
 ## Configuration
 
 | Search options          | Default    | Description                                                                             |
-|-------------------------|------------|-----------------------------------------------------------------------------------------|
-| `-n`, `--number`        | 1          | Number of the videos fetched per level. Can be specified multiple times for each level. |
+|-------------------------|------------|------------------------------------------------------------------------------|
+| `-n`, `--number`        | 1          | Number of the videos fetched per level (may specified several times) |
 | `-d`, `--max-depth`     | 0          | Number of recursion steps to perform.                                                   |
 | `-k`, `--api-key`       | *Required* | The API key that should be used to query the YouTube API v3.                            |
 | `-o`, `--output-dir`    | *Optional* | Path to the directory where output files are saved                                      |
