@@ -5,7 +5,7 @@ from pprint import pprint
 
 import click
 
-from ytscraper.helper.configfile import DEFAULT_OPTIONS, load_config, write_config
+from ytscraper.helper.configfile import DEFAULT_OPTIONS, load_config, write_config, update_config
 from ytscraper.helper.echo import echov, echow
 
 
@@ -83,6 +83,7 @@ def unset(context, option):
 def get(context, option):
     """ Shows a default option."""
     config = context.obj["config"]
+    update_config(config)
     if option in config:
         echov(f"The value of '{option}' is set to '{config[option]}'.")
     else:
@@ -101,3 +102,12 @@ def clear(context):
         echov("Configuration file cleared!")
     else:
         echov("Aborted! Nothing changed.")
+
+
+@config.command()
+@click.pass_context
+def show(context):
+    """ Clear all configurations. """
+    config = context.obj["config"]
+    update_config(config)
+    pprint(config)

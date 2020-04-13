@@ -57,7 +57,7 @@ verbose = False
 )
 @click.option(
     "--output-name",
-    "-N",
+    "-b",
     type=str,
     help="The name prefix of the output files.",
 )
@@ -83,7 +83,7 @@ verbose = False
     "--encoding",
     "-e",
     type=click.Choice(["ascii", "utf-8", "smart"]),
-    help="Transform text to which encoding.",
+    help="Transforms text to another encoding.",
 )
 @click.option(
     "--unique",

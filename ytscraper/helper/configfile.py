@@ -95,7 +95,7 @@ def write_config(config, config_path=None):
         toml.dump(config, f)
 
 
-def update_config(config, options):
+def update_config(config, options={}):
     """ Updates a configuration dictionary and inserts default values.
 
         Parameters
