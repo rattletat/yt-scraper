@@ -30,7 +30,7 @@ py -m pip install yt-scraper
 ### API Key
 
 In order to use this program, you will need an official YouTube API key. 
-You can obtain one from [this](yt-console-url) page and 
+You can obtain one from [this][yt-console-url] page and 
 use it with the following examples by appending `-k <KEY>` to them.
 
 ## Usage
@@ -45,28 +45,28 @@ For example the following command will return the first video when one searches 
 
 ```sh
 $ yt-scraper search term 'cat'
-```
 
-> [STATUS] Result:
->  Depth: 0, Rank: 0, ID: hY7m5jjJ9mM
->             Title: CATS will make you LAUGH YOUR HEAD OFF - Funny CAT compilation
->             Related Videos: []
+[STATUS] Result:
+ Depth: 0, Rank: 0, ID: hY7m5jjJ9mM
+            Title: CATS will make you LAUGH YOUR HEAD OFF - Funny CAT compilation
+            Related Videos: []
 
 One can also provide a video id or a video url as a starting point, which is more interesting when used with the `--max-depth` option:
+```
 
 ```sh
 $ yt-scraper search id '0A2R27kCeD4' --max-depth 2
-```
 
-> Depth: 0, Rank: 0, ID: 0A2R27kCeD4
->            Title: 🤣 Funniest 🐶 Dogs and 😻 Cats - Awesome Funny Home Animal Videos 😇
->            Related Videos: ['pc8-8KfIW5c']
->     Depth: 1, Rank: 0, ID: pc8-8KfIW5c
->                Title: 🦁 Funniest Animals 🐼 - Try Not To Laugh 🤣 - Funny Domestic And Wild Animals' Life
->                Related Videos: ['OrJMUNEyZsE']
->         Depth: 2, Rank: 0, ID: OrJMUNEyZsE
->                    Title: Funniest Videos for Pets to Watch Compilation | Funny Pet Videos
->                    Related Videos: []
+ Depth: 0, Rank: 0, ID: 0A2R27kCeD4
+            Title: 🤣 Funniest 🐶 Dogs and 😻 Cats - Awesome Funny Home Animal Videos 😇
+            Related Videos: ['pc8-8KfIW5c']
+     Depth: 1, Rank: 0, ID: pc8-8KfIW5c
+                Title: 🦁 Funniest Animals 🐼 - Try Not To Laugh 🤣 - Funny Domestic And Wild Animals' Life
+                Related Videos: ['OrJMUNEyZsE']
+         Depth: 2, Rank: 0, ID: OrJMUNEyZsE
+                    Title: Funniest Videos for Pets to Watch Compilation | Funny Pet Videos
+                    Related Videos: []
+```
 
 
 Additionally, one can specify the number of videos 
@@ -76,17 +76,18 @@ from a given video (specified by it's url) and
 additionally one related video from each sibling:
 ```sh
 $ yt-scraper search url 'https://www.youtube.com/watch?v=0A2R27kCeD4' --depth 1 --number 2 --number 1
+
+ [STATUS] Result:
+  Depth: 0, Rank: 0, ID: 0A2R27kCeD4
+             Title: 🤣 Funniest 🐶 Dogs and 😻 Cats - Awesome Funny Home Animal Videos 😇
+             Related Videos: ['pc8-8KfIW5c', 'tbyAuT50eu4']
+      Depth: 1, Rank: 0, ID: pc8-8KfIW5c
+                 Title: 🦁 Funniest Animals 🐼 - Try Not To Laugh 🤣 - Funny Domestic And Wild Animals' Life
+                 Related Videos: []
+      Depth: 1, Rank: 1, ID: tbyAuT50eu4
+                 Title: 😁 Funniest 😻 Cats and 🐶 Dogs - Awesome Funny Pet Animals 😇
+                 Related Videos: []
 ```
-> [STATUS] Result:
->  Depth: 0, Rank: 0, ID: 0A2R27kCeD4
->             Title: 🤣 Funniest 🐶 Dogs and 😻 Cats - Awesome Funny Home Animal Videos 😇
->             Related Videos: ['pc8-8KfIW5c', 'tbyAuT50eu4']
->      Depth: 1, Rank: 0, ID: pc8-8KfIW5c
->                 Title: 🦁 Funniest Animals 🐼 - Try Not To Laugh 🤣 - Funny Domestic And Wild Animals' Life
->                 Related Videos: []
->      Depth: 1, Rank: 1, ID: tbyAuT50eu4
->                 Title: 😁 Funniest 😻 Cats and 🐶 Dogs - Awesome Funny Pet Animals 😇
->                 Related Videos: []
 
 For the sake of brevity, you can shorten `--number` to `-n` and `--depth` to
 `-d`. 
@@ -149,7 +150,7 @@ $ yt-scraper config get encoding
 | `-V`, `--version`     | *Optional*        | Shows the current program version and exits                                       |
 
 More information can be found by adding the `--help` option to commands or
-reading the [YouTube API manual](yt-api-url).
+reading the [YouTube API manual][yt-api-url].
 
 Old-fashioned people, who do not like the `config` command,
 can manually configure the program by editing the `config.toml` file.
