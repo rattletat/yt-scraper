@@ -4,10 +4,12 @@ max_depth = 1
 api_key = "<API-key>"
 output_dir = "."
 output_format = "csv"
+output_name = "conspiracy"
 region_code = "de"
 lang_code = "de"
 safe_search = "moderate"
 encoding = "utf-8"
+unique = true
 
 # Global options
 verbose = true
