@@ -150,7 +150,7 @@ $ yt-scraper config get encoding
 
 | Search options          | Default    | Description                                                                             |
 |-------------------------|------------|------------------------------------------------------------------------------|
-| `-n`, `--number`        | 1          | Number of the videos fetched per level (may specified several times) |
+| `-n`, `--number`        | 1          | Number of the videos fetched per level (can be specified several times) |
 | `-d`, `--max-depth`     | 0          | Number of recursion steps to perform.                                                   |
 | `-k`, `--api-key`       | *Required* | The API key that should be used to query the YouTube API v3.                            |
 | `-o`, `--output-dir`    | *Optional* | Path to the directory where output files are saved                                      |
