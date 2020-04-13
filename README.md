@@ -5,6 +5,8 @@
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 [![version](https://img.shields.io/pypi/v/yt-scraper)](https://pypi.org/project/yt-scraper/)
 
+![](data/header.png)
+
 ## About
 
 This Python based command line utility enables the easy extraction of information from the YouTube API (Version 3). Currently, it supports only a small subset of the API interface and focuses on extracting related videos from given starting points.
