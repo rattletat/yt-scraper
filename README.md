@@ -249,7 +249,7 @@ To set up the development environment,
 please install [Poetry][poetry-url] and run `poetry install` inside the project.
 A test suite will be added soon.
 
-In general, the contribution process is somehow like this:
+In general, the contribution process is somewhat like this:
 
 1. Fork it (`$ git clone https://github.com/rattletat/yt-scraper`)
 2. Create your feature branch (`$ git checkout -b feature/fooBar`)
