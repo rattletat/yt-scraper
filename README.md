@@ -39,9 +39,12 @@ In the moment, **yt-scraper** has two commands: *search* and *config*
 The former is used to query the YouTube API, whereas the latter is used to
 configure the default configuration.
 
-The search command starts a video search from one or multiple given starting points. These could be multiple videos orginating from a search (using *term*) or a provided list of video ids (using *input*), or just one root video (using *id* or *url*).
+The search command starts a video search from one or multiple given starting points. 
+These could be multiple videos orginating from a search (using *term*),
+or a provided list of video ids (using *input*), 
+or just one root video (using *id* or *url*).
 
-For example the following command will return the first video when one searches for `cat`.
+For example, the following command will return the first video when one searches for `cat`.
 
 ```sh
 $ yt-scraper search term 'cat'
@@ -50,9 +53,11 @@ $ yt-scraper search term 'cat'
  Depth: 0, Rank: 0, ID: hY7m5jjJ9mM
             Title: CATS will make you LAUGH YOUR HEAD OFF - Funny CAT compilation
             Related Videos: []
-
-One can also provide a video id or a video url as a starting point, which is more interesting when used with the `--max-depth` option:
 ```
+
+One can also provide a video id or a video url as a starting point, 
+which is more interesting when combined with the `--max-depth` option:
+
 
 ```sh
 $ yt-scraper search id '0A2R27kCeD4' --max-depth 2
