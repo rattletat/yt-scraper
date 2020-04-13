@@ -48,7 +48,8 @@ For example, the following command will return the first video when one searches
 
 ```sh
 $ yt-scraper search term 'cat'
-
+```
+```
 [STATUS] Result:
  Depth: 0, Rank: 0, ID: hY7m5jjJ9mM
             Title: CATS will make you LAUGH YOUR HEAD OFF - Funny CAT compilation
