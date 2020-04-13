@@ -19,17 +19,17 @@ Next, install **yt-scraper** by using [pip][pip-url]:
 sudo pip install yt-scraper
 ```
 
-Update by adding the `--upgrade` flag:
+**Update** by adding the `--upgrade` flag:
 ```sh
 sudo pip install --upgrade yt-scraper
 ```
 
-**Windows** users may need to alter the command:
+**Windows** users may need to alter the command to:
 ```sh
 py -m pip install --upgrade yt-scraper
 ```
 
-**Mac** users may need to alter command:
+**Mac** users may need to alter the command to:
 
 ```sh
 python3 -m pip install --upgrade yt-scraper
