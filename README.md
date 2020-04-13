@@ -44,9 +44,9 @@ You can obtain one from [this][yt-console-url] page and
 use it with the following examples by appending `-k <KEY>` to them.
 
 ## Usage
-In the moment, **yt-scraper** has two commands: *search* and *config*
+Currently, **yt-scraper** has two commands: *search* and *config*
 
-The former is used to query the YouTube API, whereas the latter is used to
+The first command is used to query the YouTube API, whereas the second is used to
 configure the default configuration.
 
 The search command starts a video search from one or multiple given starting points. 
@@ -189,7 +189,7 @@ number = [ 4, 3, 2, 1 ]
 depth = 3
 verbose = true
 ```
-A example toml is included: [config.toml][config-url]
+An example toml is included: [config.toml][config-url]
 
 Then put this file in your standard configuration folder. Typically this folder can be found at the following location:
 
@@ -239,7 +239,7 @@ Every of these features is going to be a minor patch:
  
 
 ## Contributing
-If you found a bug or have a suggestion, 
+If you come across any bugs or have a suggestion, 
 please don't hesitate to [file an issue][git-new-issue-url].
 
 Contributions in any form are welcomed. 
