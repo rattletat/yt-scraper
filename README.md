@@ -12,19 +12,27 @@ This Python based command line utility enables the easy extraction of informatio
 
 ## Installation
 
-Install **yt-scraper** by using [pip][pip-url]:
+First, make sure you have a recent version of [Python 3][python-url] installed.
+
+Next, install **yt-scraper** by using [pip][pip-url]:
 ```sh
-sudo -H pip install yt-scraper
+sudo pip install yt-scraper
 ```
 
 Update by adding the `--upgrade` flag:
 ```sh
-sudo -H pip install --upgrade yt-scraper
+sudo pip install --upgrade yt-scraper
 ```
 
-Windows users may need to alter the command:
+**Windows** users may need to alter the command:
 ```sh
-py -m pip install yt-scraper
+py -m pip install --upgrade yt-scraper
+```
+
+**Mac** users may need to alter command:
+
+```sh
+python3 -m pip install --upgrade yt-scraper
 ```
 
 ### API Key
@@ -261,6 +269,7 @@ For more information, see the included [UNLICENSE][license-url] file.
 <!-- Markdown link & img dfn's -->
 [pip-url]: https://pip.pypa.io/en/stable/
 [config-url]: data/config.toml
+[python-url]: https://www.python.org/
 [yt-console-url]: https://console.developers.google.com/
 [yt-api-url]: https://developers.google.com/youtube/v3/docs/search/list
 [git-new-issue-url]: https://github.com/rattletat/yt-scraper/issues/new
