@@ -61,7 +61,8 @@ which is more interesting when combined with the `--max-depth` option:
 
 ```sh
 $ yt-scraper search id '0A2R27kCeD4' --max-depth 2
-
+```
+```
  Depth: 0, Rank: 0, ID: 0A2R27kCeD4
             Title: 🤣 Funniest 🐶 Dogs and 😻 Cats - Awesome Funny Home Animal Videos 😇
             Related Videos: ['pc8-8KfIW5c']
@@ -81,7 +82,8 @@ from a given video (specified by it's url) and
 additionally one related video from each sibling:
 ```sh
 $ yt-scraper search url 'https://www.youtube.com/watch?v=0A2R27kCeD4' --depth 1 --number 2 --number 1
-
+```
+```
  [STATUS] Result:
   Depth: 0, Rank: 0, ID: 0A2R27kCeD4
              Title: 🤣 Funniest 🐶 Dogs and 😻 Cats - Awesome Funny Home Animal Videos 😇
