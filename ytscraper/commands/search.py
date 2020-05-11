@@ -10,7 +10,7 @@ from googleapiclient.errors import HttpError
 
 from ytscraper.helper.configfile import update_config
 from ytscraper.helper.echo import echoe, echov, echow
-from ytscraper.helper.export import export_to_csv, filter_text
+from ytscraper.helper.export import export_to_csv, export_to_sql, filter_text
 from ytscraper.helper.yt_api import (
     get_youtube_handle,
     related_search,
@@ -41,7 +41,9 @@ verbose = False
     type=click.IntRange(0, 100),
     help="Maximal number of recursion steps.",
 )
-@click.option("--api-key", "-k", type=str, help="API Key to use YouTube API v3.")
+@click.option(
+    "--api-key", "-k", type=str, help="API Key to use YouTube API v3."
+)
 @click.option(
     "--output-dir",
     "-o",
@@ -52,7 +54,7 @@ verbose = False
 @click.option(
     "--output-format",
     "-f",
-    type=click.Choice(["csv"]),
+    type=click.Choice(["csv", "sql"]),
     help="The file format of output files.",
 )
 @click.option(
@@ -88,8 +90,8 @@ verbose = False
 @click.option(
     "--unique",
     "-u",
-    is_flag = True,
-    default = False,
+    is_flag=True,
+    default=False,
     help="Do not process nodes again.",
 )
 @click.pass_context
@@ -108,9 +110,11 @@ def search(context, search_type, query, **options):
         "safe_search": "safeSearch",
     }
     api_options = {rename[key]: config[key] for key in rename if config[key]}
-    handle = get_handle(config["api_key"])
+    handle = get_handle(config["keys"])
 
-    start_videos = get_starter_videos(config, handle, api_options, search_type, query)
+    start_videos = get_starter_videos(
+        config, handle, api_options, search_type, query
+    )
     nodes = build_nodes(config, handle, api_options, start_videos)
     # Filter nodes
     for node in nodes:
@@ -119,8 +123,13 @@ def search(context, search_type, query, **options):
                 node[key] = filter_text(node[key], encoding=config["encoding"])
 
     if config["output_dir"] and config["output_format"] == "csv":
-        echov("Query finished! Start exporting files!", verbose)
+        echov("Query finished! Start exporting files to CSV!", verbose)
         export_to_csv(nodes, config["output_dir"], config["output_name"])
+        echov(f"Exported results to: " + config["output_dir"])
+
+    if config["output_dir"] and config["output_format"] == "sql":
+        echov("Query finished! Start exporting files to SQL!", verbose)
+        export_to_sql(nodes, config["output_dir"], config["output_name"])
         echov(f"Exported results to: " + config["output_dir"])
 
     if not config["output_dir"] or verbose:
@@ -133,7 +142,9 @@ def search(context, search_type, query, **options):
             print("    " * node["depth"], f"           Title: {node['title']}")
             print(
                 "    " * node["depth"],
-                "           Related Videos: {}".format(node.get("relatedVideos")),
+                "           Related Videos: {}".format(
+                    node.get("relatedVideos")
+                ),
             )
 
 
@@ -158,17 +169,24 @@ def validate(config):
     if isinstance(config["number"], int):
         config["number"] = tuple((config["number"],))
 
+    # Force api_key to be a list of next index / key list.
+    if isinstance(config["api_key"], str):
+        config["keys"] = [0, [config["api_key"]]]
 
-def get_handle(api_key):
+    if isinstance(config["api_key"], list):
+        config["keys"] = [0, config["api_key"]]
+
+
+def get_handle(keys):
     """ Obtains the YouTube resource handle using an API key. """
     echov("Starting YouTube authentication.", verbose)
-    if not api_key:
+    if not keys:
         echoe(
             """You need to provide an API key using `--api-key`
         or the configuration file in order to query YouTube's API.
         Please see README on how to obtain such a key."""
         )
-    handle = get_youtube_handle(api_key)
+    handle = get_youtube_handle(keys)
     echov("API access established.", verbose)
     return handle
 
@@ -203,10 +221,11 @@ def build_nodes(config, handle, api_options, starter_videos):
     while len(queue) > 0:
         video = queue.popleft()
         echov(
-            f"Processing video {video['videoId']} (Depth: {video['depth']}).", verbose
+            f"Processing video {video['videoId']} (Depth: {video['depth']}).",
+            verbose,
         )
         processed.append(video)
-        processed_ids.add(video['videoId'])
+        processed_ids.add(video["videoId"])
         if video["depth"] >= config["max_depth"]:
             video["relatedVideos"] = list()
             continue
@@ -214,12 +233,20 @@ def build_nodes(config, handle, api_options, starter_videos):
         num_children = _get_branching(config["number"], video["depth"])
         while True:
             try:
-                children = related_search(handle, num_children, video["videoId"], **api_options)
-                video["relatedVideos"] = list(map(lambda c: c["videoId"], children))
+                children = related_search(
+                    handle, num_children, video["videoId"], **api_options
+                )
+                video["relatedVideos"] = list(
+                    map(lambda c: c["videoId"], children)
+                )
                 for rank, child in enumerate(children):
                     child.update({"rank": rank, "depth": video["depth"] + 1})
                 if config["unique"]:
-                    queue.extend(child for child in children if child['videoId'] not in processed_ids)
+                    queue.extend(
+                        child
+                        for child in children
+                        if child["videoId"] not in processed_ids
+                    )
                 else:
                     queue.extend(children)
                 break
@@ -227,11 +254,7 @@ def build_nodes(config, handle, api_options, starter_videos):
                 sys.tracebacklimit = 0
                 echow("Http error received:")
                 echow(e)
-                if click.confirm("Do you want to enter another API key?"):
-                    api_key = click.prompt("Enter your API key", type=str)
-                    handle = get_youtube_handle(api_key)
-                else:
-                    echoe("No API key provided. Exiting.")
+                handle = get_youtube_handle(api_options["keys"])
 
     return processed
 

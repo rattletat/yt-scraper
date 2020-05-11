@@ -224,6 +224,9 @@ If the folder does not exist, you may need to create it first.
     - New `--unique` option
     - New input method by importing a file or reading from stdin
     - Added prompt when encountering an API error
+* 0.8.0
+    - New `--format sql` SQLite export
+    - Multiple API keys with automatic switching is now possible
 
 ## Roadmap
 

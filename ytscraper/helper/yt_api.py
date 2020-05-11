@@ -7,6 +7,7 @@ Google"s YouTube API v3.
 """
 
 import re
+import click
 
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -62,7 +63,7 @@ def _extract_data(item):
         except TypeError:
             result["videoId"] = item["id"]
     if "snippet" in item:
-        result["channdelId"] = item["snippet"]["channelId"]
+        result["channelId"] = item["snippet"]["channelId"]
         result["title"] = item["snippet"]["title"]
         result["description"] = item["snippet"]["description"]
         result["publishedAt"] = item["snippet"]["publishedAt"]
@@ -70,22 +71,31 @@ def _extract_data(item):
     return result
 
 
-def get_youtube_handle(api_key):
+def get_youtube_handle(keys):
     """ Returns the YouTube Data API v3 handle.
 
     Parameter
     ---------
-    api_key: str
-        An authorized API key.
+    api_key: (str, list(str))
+        An index and a list of authorized API keys.
 
     Returns
     -------
         An object for interacting with the YouTube API v3 service.
     """
     try:
-        return build("youtube", "v3", developerKey=api_key)
-    except HttpError:
+        key = keys[1][keys[0]]
+        keys[0] = keys[0] + 1
+    except IndexError:
+        echow("No API Keys left!")
+        if click.confirm("Do you want to enter another API key?"):
+            key = click.prompt("Enter your API key", type=str)
+        else:
+            echoe("No API key provided. Exiting.")
+    try:
+        return build("youtube", "v3", developerKey=key)
+    except HttpError as e:
         echoe(
-            """ There was an error while connecting to the YouTube API.
-        Please check your API key."""
+            f""" There was an error while connecting to the YouTube API.
+        Please check your API key: {e}"""
         )
