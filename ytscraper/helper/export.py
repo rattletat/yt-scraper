@@ -19,14 +19,14 @@ def export_to_csv(nodes, output_dir, output_name):
     edges = set(
         (node["videoId"], child) for node in nodes for child in node["relatedVideos"]
     )
-    with open(edges_path, "a", newline="") as out:
+    with open(edges_path, "a", newline="", encoding='utf8') as out:
         csv_out = csv.writer(out, delimiter="\t")
         if not edge_path_exists:
             csv_out.writerow(["origin", "target"])
         for origin, target in edges:
             csv_out.writerow([origin, target])
 
-    with open(nodes_path, "a", newline="") as out:
+    with open(nodes_path, "a", newline="", encoding='utf8') as out:
         csv_out = csv.writer(out, delimiter="\t")
         if not node_path_exists:
             csv_out.writerow(nodes[0].keys())

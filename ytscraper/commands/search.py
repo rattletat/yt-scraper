@@ -230,8 +230,8 @@ def build_nodes(config, handle, api_options, starter_videos):
                 if click.confirm("Do you want to enter another API key?"):
                     api_key = click.prompt("Enter your API key", type=str)
                     handle = get_youtube_handle(api_key)
-                else: 
-                    echoe("No API key provided. Exiting.") 
+                else:
+                    echoe("No API key provided. Exiting.")
 
     return processed
 
