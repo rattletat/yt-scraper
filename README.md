@@ -226,14 +226,15 @@ If the folder does not exist, you may need to create it first.
     - Added prompt when encountering an API error
 * 0.8.0
     - New `--format sql` SQLite export
-    - Multiple API keys with automatic switching is now possible
+    - New `config where` command
+    - Multiple API keys with automatic key switching is now possible
 
 ## Roadmap
 
 Every of these features is going to be a minor patch:
 
 - [X] Add node video data attributes, such as title and description.
-- [ ] Add possibility to specify more than one API key to switch seamlessly.
+- [X] Add possibility to specify more than one API key to switch seamlessly.
 - [ ] Add possibility to query more than 50 videos on one level.
 - [ ] Add youtube-dl integration for downloading subtitles.
 - [ ] Add a testing suite.

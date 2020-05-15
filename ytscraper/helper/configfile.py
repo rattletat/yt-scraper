@@ -76,6 +76,7 @@ def load_config(config_path=None):
             else:
                 config = {}
 
+    config["config_path"] = config_path
     return config
 
 

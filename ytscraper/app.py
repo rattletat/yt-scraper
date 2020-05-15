@@ -17,7 +17,6 @@ def run(context, config_path, verbose):
     context.obj = {}
     context.obj["config"] = load_config(config_path)
     context.obj["verbose"] = verbose
-    context.obj["config_path"] = config_path
 
 
 run.add_command(search.search)

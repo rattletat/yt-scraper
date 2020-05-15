@@ -5,7 +5,12 @@ from pprint import pprint
 
 import click
 
-from ytscraper.helper.configfile import DEFAULT_OPTIONS, load_config, write_config, update_config
+from ytscraper.helper.configfile import (
+    DEFAULT_OPTIONS,
+    load_config,
+    write_config,
+    update_config,
+)
 from ytscraper.helper.echo import echov, echow
 
 
@@ -29,7 +34,7 @@ def set(context, option, value):
     """ Sets default options."""
     config = context.obj["config"]
     verbose = context.obj["verbose"]
-    config_path = context.obj["config_path"]
+    config_path = context.obj["config"]["config_path"]
 
     try:
         value = ast.literal_eval(value)
@@ -64,7 +69,7 @@ def unset(context, option):
     """ Unsets a default option."""
     config = context.obj["config"]
     verbose = context.obj["verbose"]
-    config_path = context.obj["config_path"]
+    config_path = context.obj["config"]["config_path"]
 
     if option in config:
         del config[option]
@@ -93,8 +98,8 @@ def get(context, option):
 @config.command()
 @click.pass_context
 def clear(context):
-    """ Clear all configurations. """
-    config_path = context.obj["config_path"]
+    """ Clears all configurations. """
+    config_path = context.obj["config"]["config_path"]
 
     if click.confirm(f"Do you really want to clear the configuration file?"):
         # Erase content of configuration file
@@ -111,3 +116,11 @@ def show(context):
     config = context.obj["config"]
     update_config(config)
     pprint(config)
+
+
+@config.command()
+@click.pass_context
+def where(context):
+    """ Shows the configuration file path. """
+    config_path = context.obj["config"]["config_path"]
+    print(config_path)
