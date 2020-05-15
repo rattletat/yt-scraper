@@ -3,7 +3,6 @@ import csv
 import os
 import re
 import sqlite3
-import pandas as pd
 
 
 def export_to_csv(nodes, output_dir, output_name):
@@ -67,10 +66,11 @@ def export_to_sql(nodes, output_dir, output_name):
         "publishedAt",
     ]
     node_sql = "INSERT INTO NODES ({}) VALUES ({})".format(
-        ",".join(node_order),
-        ",".join(["?"] * len(node_order))
+        ",".join(node_order), ",".join(["?"] * len(node_order))
     )
-    node_tuples = [tuple(node[label] for label in node_order) for node in nodes]
+    node_tuples = [
+        tuple(node[label] for label in node_order) for node in nodes
+    ]
     c.executemany(node_sql, node_tuples)
 
     edge_sql = "INSERT INTO EDGES (origin,target) VALUES (?, ?)"
