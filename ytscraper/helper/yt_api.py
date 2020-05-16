@@ -35,7 +35,7 @@ def _search(handle, number, **api_options):
     video_data = [_extract_data(video) for video in response["items"]]
     if len(video_data) < number:
         echow(
-            f"API gave less number of videos than requested: {len(video_data)} instead of {number}!"
+            f"API gave less videos than requested: {len(video_data)} instead of {number}!"
         )
     return video_data[:number]
 
