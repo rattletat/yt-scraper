@@ -31,7 +31,7 @@ def config(context):
 @click.argument("value")
 @click.pass_context
 def set(context, option, value):
-    """ Sets default options."""
+    """ Sets a default option."""
     config = context.obj["config"]
     verbose = context.obj["verbose"]
     config_path = context.obj["config"]["config_path"]
@@ -112,7 +112,7 @@ def clear(context):
 @config.command()
 @click.pass_context
 def show(context):
-    """ Clear all configurations. """
+    """ Shows all configurations. """
     config = context.obj["config"]
     update_config(config)
     pprint(config)
