@@ -33,6 +33,8 @@ DEFAULT_OPTIONS = {
     "safe_search": "none",
     "encoding": "utf-8",
     "unique": False,
+    "config_path": "",
+
 }
 
 
