@@ -84,8 +84,9 @@ def get_youtube_handle(keys):
         An object for interacting with the YouTube API v3 service.
     """
     try:
-        key = keys[1][keys[0]]
-        keys[0] = keys[0] + 1
+        index = keys[0]
+        key = keys[1][index]
+        keys[0] += 1
     except IndexError:
         echow("No API Keys left!")
         if click.confirm("Do you want to enter another API key?"):

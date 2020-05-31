@@ -228,6 +228,10 @@ If the folder does not exist, you may need to create it first.
     - New `--format sql` SQLite export
     - New `config where` command
     - Multiple API keys with automatic key switching is now possible
+    - New `--include` option
+    - New `--exclude` option
+    - Renamed `input` argument to `file`
+    - Piping of urls is now possible
 
 ## Roadmap
 

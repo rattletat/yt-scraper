@@ -34,7 +34,8 @@ DEFAULT_OPTIONS = {
     "encoding": "utf-8",
     "unique": False,
     "config_path": "",
-
+    "include": [],
+    "exclude": [],
 }
 
 

@@ -23,9 +23,7 @@ verbose = False
 
 @click.command()
 @click.argument(
-    "search-type",
-    default="term",
-    type=click.Choice(["term", "url", "id", "input"]),
+    "search-type", default="term", type=click.Choice(["term", "url", "id", "file"]),
 )
 @click.argument("query", nargs=1, required=True)
 @click.option(
@@ -41,9 +39,7 @@ verbose = False
     type=click.IntRange(0, 100),
     help="Maximal number of recursion steps.",
 )
-@click.option(
-    "--api-key", "-k", type=str, help="API Key to use YouTube API v3."
-)
+@click.option("--api-key", "-k", type=str, help="API Key to use YouTube API v3.")
 @click.option(
     "--output-dir",
     "-o",
@@ -58,10 +54,7 @@ verbose = False
     help="The file format of output files.",
 )
 @click.option(
-    "--output-name",
-    "-b",
-    type=str,
-    help="The name prefix of the output files.",
+    "--output-name", "-b", type=str, help="The name prefix of the output files.",
 )
 @click.option(
     "--region-code",
@@ -94,6 +87,12 @@ verbose = False
     default=False,
     help="Do not process nodes again.",
 )
+@click.option(
+    "--exclude", "-x", multiple=True, help="Exclude fields from written output.",
+)
+@click.option(
+    "--include", "-i", multiple=True, help="Include only certain fields.",
+)
 @click.pass_context
 def search(context, search_type, query, **options):
     """Searches YouTube using a specified query."""
@@ -122,14 +121,31 @@ def search(context, search_type, query, **options):
             if isinstance(node[key], str):
                 node[key] = filter_text(node[key], encoding=config["encoding"])
 
+    def filter(d):
+        return {
+            key: value
+            for key, value in d.items()
+            if config["include"]
+            and (key in config["include"] or key in ["videoId", "relatedVideos"])
+            or config["exclude"]
+            and key not in config["exclude"]
+        }
+
+    nodes = list(map(filter, nodes))
+
+    # Export
     if config["output_dir"] and config["output_format"] == "csv":
         echov("Query finished! Start exporting files to CSV!", verbose)
-        export_to_csv(nodes, config["output_dir"], config["output_name"])
+        export_to_csv(
+            nodes, config["output_dir"], config["output_name"],
+        )
         echov(f"Exported results to: " + config["output_dir"])
 
     if config["output_dir"] and config["output_format"] == "sql":
         echov("Query finished! Start exporting files to SQL!", verbose)
-        export_to_sql(nodes, config["output_dir"], config["output_name"])
+        export_to_sql(
+            nodes, config["output_dir"], config["output_name"],
+        )
         echov(f"Exported results to: " + config["output_dir"])
 
     if not config["output_dir"] or verbose:
@@ -142,9 +158,7 @@ def search(context, search_type, query, **options):
             print("    " * node["depth"], f"           Title: {node['title']}")
             print(
                 "    " * node["depth"],
-                "           Related Videos: {}".format(
-                    node.get("relatedVideos")
-                ),
+                "           Related Videos: {}".format(node.get("relatedVideos")),
             )
 
 
@@ -193,23 +207,29 @@ def get_handle(keys):
 
 def get_starter_videos(config, handle, api_options, search_type, query):
     echov(f"Starting search using query {query}.", verbose)
-    if search_type == "term":
-        return video_search(handle, config["number"][0], query, **api_options)
-    if search_type == "id":
-        return video_info(handle, query)
-    if search_type == "url":
-        # Parse URL
-        qterm = parse.urlsplit(query).query
-        video_id = parse.parse_qs(qterm)["v"][0]
-        return video_info(handle, video_id)
-    if search_type == "input":
-        if query == "-":
-            return video_info(handle, ",".join(sys.stdin))
-        else:
+
+    def url_2_id(url):
+        qterm = parse.urlsplit(url).query
+        return parse.parse_qs(qterm)["v"][0]
+
+    if query == "-":
+        if search_type == "id":
+            return video_info(handle, ",".join(sys.stdin.read().split()))
+        if search_type == "url":
+            ids = [url_2_id(url) for url in sys.stdin.read().split()]
+            return video_info(handle, ",".join(ids))
+    else:
+        if search_type == "term":
+            return video_search(handle, config["number"][0], query, **api_options)
+        if search_type == "id":
+            return video_info(handle, query)
+        if search_type == "url":
+            return video_info(handle, url_2_id(query))
+        if search_type == "file":
             with open(query) as f:
                 return video_info(handle, ",".join(f))
 
-    raise click.BadParameter("Wrong search type.")
+    raise click.BadParameter("Invalid search parameter.")
 
 
 def build_nodes(config, handle, api_options, starter_videos):
@@ -236,9 +256,7 @@ def build_nodes(config, handle, api_options, starter_videos):
                 children = related_search(
                     handle, num_children, video["videoId"], **api_options
                 )
-                video["relatedVideos"] = list(
-                    map(lambda c: c["videoId"], children)
-                )
+                video["relatedVideos"] = list(map(lambda c: c["videoId"], children))
                 for rank, child in enumerate(children):
                     child.update({"rank": rank, "depth": video["depth"] + 1})
                 if config["unique"]:

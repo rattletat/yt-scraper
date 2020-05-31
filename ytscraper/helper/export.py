@@ -34,7 +34,8 @@ def export_to_csv(nodes, output_dir, output_name):
             csv_out.writerow(nodes[0].keys())
         for node in nodes:
             del node["relatedVideos"]
-            del node["description"]
+            if "description" in node:
+                del node["description"]
             csv_out.writerow(node.values())
 
 
