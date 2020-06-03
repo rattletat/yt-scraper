@@ -202,31 +202,44 @@ Then put this file in your standard configuration folder. Typically this folder 
 If the folder does not exist, you may need to create it first.
 
 
+## Quota costs
+
+Google dramatically lowered the maximum number of API requests per day in recent years.
+Currently, they impede a daily usage of 10,000 quota points, which corresponds to around 100 videos.
+One can create multiple accounts though, and specify them in the `config.toml` file like this:
+
+```toml
+api_key = ["<API Key 1>", "<API Key 2>", "..."]
+```
+
+Furthermore, specify the `--unique` option to avoid duplicate processing of frontier nodes. Keep in mind, however, that the resulting graph will have a maximum degree of `n`.
+
+
 ## Release History
 
-* 0.2.6 
+* 0.2.X 
     - Added [UNLICENSE](license-url) to project
-* 0.3.0
+* 0.3.X
     - Uploaded to [PyPI][pypi-url]
-* 0.4.0
+* 0.4.X
     - New command *search*
-* 0.5.0
+* 0.5.X
     - Option `--depth` renamed to `--max-depth`
     - Video attributes, such as title, description, channel are fetched
     - More consistent option handling
-* 0.6.0
+* 0.6.X
     - New export feature: *csv*
     - New command: *config*
     - New API options: *region-code, lang-code and safe-search*
 
-* 0.7.0
+* 0.7.X
     - New `--version` option
     - New `--encoding` option
     - New `--export-name` option
     - New `--unique` option
     - New input method by importing a file or reading from stdin
     - Added prompt when encountering an API error
-* 0.8.0
+* 0.8.X
     - New `--format sql` SQLite export
     - New `config where` command
     - Multiple API keys with automatic key switching is now possible
@@ -244,7 +257,7 @@ Every of these features is going to be a minor patch:
 - [ ] Add possibility to query more than 50 videos on one level.
 - [ ] Add youtube-dl integration for downloading subtitles.
 - [ ] Add a testing suite.
-- [o] Add export functionality to CSV, SQLlite or Pandas.
+- [x] Add export functionality to CSV and SQLlite.
 - [ ] Add more information about quota to README
  
 
@@ -266,7 +279,6 @@ In general, the contribution process is somewhat like this:
 3. Commit your changes (`$ git commit -am 'Add some fooBar'`)
 4. Push to the branch (`$ git push origin feature/fooBar`)
 5. Create a new Pull Request
-
 
 ## Author
 **Michael Brauweiler**
