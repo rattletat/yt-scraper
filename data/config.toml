@@ -15,6 +15,7 @@ lang_code = "de"
 safe_search = "moderate"
 encoding = "utf-8"
 unique = true
+include = ["title", "channelTitle"]
 
 # Global options
 verbose = true

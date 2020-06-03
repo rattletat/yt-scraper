@@ -148,19 +148,21 @@ $ yt-scraper config get encoding
 
 ## Configuration
 
-| Search options          | Default    | Description                                                                             |
-|-------------------------|------------|------------------------------------------------------------------------------|
-| `-n`, `--number`        | 1          | Number of the videos fetched per level (can be specified several times) |
-| `-d`, `--max-depth`     | 0          | Number of recursion steps to perform.                                                   |
-| `-k`, `--api-key`       | *Required* | The API key that should be used to query the YouTube API v3.                            |
-| `-o`, `--output-dir`    | *Optional* | Path to the directory where output files are saved                                      |
-| `-f`, `--output-format` | csv        | Specifies the file format of output files.                                              |
-| `-N`, `--output-name`   | *Optional* | Specifies the file name or prefix of output files.                                      |
-| `-r`, `--region-code`   | de         | Return only videos which are unrestricted in the given region.                          |
-| `-l`, `--lang-code`     | de         | Return videos mostly relevant to a specified language.                                  |
-| `-s`, `--safe-search`   | none       | Filter sensitive or restricted videos.                                                  |
-| `-e`, `--encoding`      | utf-8      | Transform fetched text to another encoding.                                             |
-| `-u`, `--unique`        | False      | Do not process seen videos again                                                        |
+| Search options            | Default      | Description                                                                    |
+| ------------------------- | ------------ | ------------------------------------------------------------------------------ |
+| `-n`, `--number`          | 1            | Number of the videos fetched per level (can be specified several times)        |
+| `-d`, `--max-depth`       | 0            | Number of recursion steps to perform.                                          |
+| `-k`, `--api-key`         | *Required*   | The API key that should be used to query the YouTube API v3.                   |
+| `-o`, `--output-dir`      | *Optional*   | Path to the directory where output files are saved                             |
+| `-f`, `--output-format`   | csv          | Specifies the file format of output files.                                     |
+| `-N`, `--output-name`     | *Optional*   | Specifies the file name or prefix of output files.                             |
+| `-r`, `--region-code`     | de           | Return only videos which are unrestricted in the given region.                 |
+| `-l`, `--lang-code`       | de           | Return videos mostly relevant to a specified language.                         |
+| `-s`, `--safe-search`     | none         | Filter sensitive or restricted videos.                                         |
+| `-e`, `--encoding`        | utf-8        | Transform fetched text to another encoding.                                    |
+| `-u`, `--unique`          | False        | Do not process seen videos again                                               |
+| `-i`, `--include`         | All          | Specify field to export (can be used several times)                            |
+| `-x`, `--exclude`         | None         | Specify field not to export (can be used several times)                        |
 
 
 | Global options        | Default           | Description                                                                       |
