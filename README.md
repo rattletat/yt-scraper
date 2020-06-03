@@ -1,9 +1,10 @@
 # YouTube Scraper
-> A simple command utility to extract information from the YouTube API v3 for scientific purposes.
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 [![version](https://img.shields.io/pypi/v/yt-scraper)](https://pypi.org/project/yt-scraper/)
+
+> A simple command utility to extract information from the YouTube API v3 for scientific purposes.
 
 ![](data/header.png)
 
